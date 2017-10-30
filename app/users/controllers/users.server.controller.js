@@ -8,6 +8,16 @@ exports.home = function(req, res){
 	res.render('users/views/home');
 }
 
+exports.meViewAPI = function(req, res){
+	User.findOne({ _id: req.auth_user._id }, { password: 0 }, function(err, user){
+		if (err || user==null || user==undefined)
+			res.status(401).json(err);
+		else{
+			res.json(user)
+		}
+	});
+}
+
 // Finds a user from the database by its user_id
 exports.userById = function(req, res, next, user_id){
 	User.findOne({ _id: user_id }, function(err, user){
