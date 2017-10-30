@@ -8,6 +8,11 @@ var activeModules = [
 	"name": "contacts",
 	"title": "Contacts",
 	"url": "/contacts"
+},
+{
+	"name": "users",
+	"title": "Users",
+	"url": "/users"
 }
 ];
 
