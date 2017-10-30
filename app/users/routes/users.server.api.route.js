@@ -16,6 +16,9 @@ module.exports = function(app){
 	app.route(domainRoot + '/signout')
 	.get(usersController.signout);
 
+	app.route(domainRoot + '/me')
+	.get(usersController.authorize, usersController.meViewAPI);
+
 	app.route(domainRoot + '/users')
 	.get(usersController.authorize, usersController.listUsersAPI)
 	.post(usersController.home);
