@@ -8,13 +8,14 @@ var userSchema = new Schema({
 	last_name: String,
 	username: String, 
 	password: String,
-	email: String
+	email: String,
+	role: String
 });
 
 const User = module.exports = mongoose.model('user', userSchema);
 
-module.exports.getUserById = function(id, callback){
-	User.findById(id, callback);
+module.exports.getUserById = function(id){
+	User.findById(id, { password: 0 }, callback);
 }
 
 module.exports.getUserByUsername = function(username, callback){
