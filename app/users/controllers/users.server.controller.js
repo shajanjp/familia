@@ -8,6 +8,7 @@ exports.home = function(req, res){
 	res.render('users/views/home');
 }
 
+// Finds a user from the database by its user_id
 exports.userById = function(req, res, next, user_id){
 	User.findOne({ _id: user_id }, function(err, user){
 		if(err || user===null || user===undefined)
@@ -19,6 +20,7 @@ exports.userById = function(req, res, next, user_id){
 	});
 }
 
+// Adds a user to the database using the given username and password
 var signupUser = function(user, next, res) {
 	User.addUser(user, function(err, user) {
 		if (!err)
@@ -28,7 +30,7 @@ var signupUser = function(user, next, res) {
 	});
 };
 
-// Authenticate
+// Signs in user with the given username and password
 exports.authorize = function(req, res, next){
 	var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || (req.cookies && req.cookies.access_token) ||req.headers['x-access-token'];
 	jwt.verify(token, config.auth_secret, function(err, decoded) {
@@ -42,6 +44,7 @@ exports.authorize = function(req, res, next){
 	});
 }
 
+// List all users
 exports.listUsersAPI = function(req, res){
 	User.find({}, function(err, users_list){
 		if (err || users_list==null || users_list==undefined)
@@ -52,6 +55,7 @@ exports.listUsersAPI = function(req, res){
 	});
 }
 
+// Adds a new user with the given user details
 exports.create = function(req, res){
 	var user_details = req.body;
 	if(user_details.username && user_details.username)
@@ -67,7 +71,7 @@ exports.create = function(req, res){
 	});
 }
 
-// Signin
+// Authenticate user with the token given
 exports.authenticate = function(req, res, next){
 	const username = req.body.username;
 	const password = req.body.password;
@@ -104,7 +108,8 @@ exports.authenticate = function(req, res, next){
 	});
 };
 
+// Signs Out user by clearing the cookies.
 exports.signout = function(req, res){
-		res.clearCookie('access_token');
+	res.clearCookie('access_token');
 	res.send({ 'msg': 'Signed out !' });
 }
