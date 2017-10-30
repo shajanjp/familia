@@ -117,10 +117,21 @@ exports.authorize = function(req, res, next){
 		{
 			req.auth_user = {};
 			req.auth_user._id = decoded.user_id;
+			req.auth_user.role = decoded.role;
 			next();
 		}
 	});
 }
+
+exports.hasRole = function(role) {
+	return function(req, res, next) {
+		if (role !== req.auth_user.role) 
+			res.status(403).json({ 'msg': 'You dont have privilages to access this.' });
+		else 
+			next();
+	}
+}
+
 
 // Signs Out user by clearing the cookies.
 exports.signout = function(req, res){
