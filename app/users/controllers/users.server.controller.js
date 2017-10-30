@@ -54,7 +54,7 @@ exports.listUsersAPI = function(req, res){
 // Adds a new user with the given user details
 exports.create = function(req, res){
 	var user_details = req.body;
-	if(user_details.username && user_details.username)
+	if(user_details.username && user_details.password)
 		var new_user = new User(user_details);
 
 	User.findOne({ $or: [{email : new_user.email},{username: new_user.username}]}, function(err, User){
