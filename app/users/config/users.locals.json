@@ -1,0 +1,13 @@
+{
+	"name" : "users",
+	"title" : "Users",
+	"tagline" : "",
+	"description" : "",
+	"metaKeywords" : "users",
+	"metaDescription" : "",
+	"icon" : "",
+	"slider" :"",
+	"url": "/users",
+	"routes": ["users.server.api.route.js","users.server.ui.route.js"],
+	"models": ["users.server.model.js"]
+}
