@@ -86,9 +86,10 @@ exports.authenticate = function(req, res, next){
 				
 				const token = jwt.sign(
 				{ 
-					"user_id": user._id,
-					"username": user.username, 
-					"first_name": user.first_name 
+					'user_id': user._id,
+					'username': user.username, 
+					'first_name': user.first_name,
+					'role': user.role
 				}, 
 				config.auth_secret, {
 					algorithm: "HS256",
