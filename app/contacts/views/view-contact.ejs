@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= contact.full_name %> - <%= contacts.title %></title>
+	<meta name="description" content="<%= contacts.metaDescription %>">
+	<meta name="keywords" content="<%=  contacts.metaKeywords %>">
+	<meta name="author" content="guyswhocode">
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<% if(contact){ %>
+	<div class="ui text container contact">
+		<div class="ui stackable grid">
+			<div class="eight wide column">
+				<img src="/contacts/public/uploads/avatars/<% if(contact.avatar){ %><%= contact.avatar %><% }else{ %>default.jpg<% } %>" class="ui rounded fluid image" alt="">		
+			</div>
+			<div class="eight wide column">
+				<h1 class="ui header marginless"><%= contact.full_name %></h1>
+				<% if(contact.nick_name){ %> <p>(<%= contact.nick_name %>)</p><% } %>
+				<% if(contact.phone){ %>
+				<a href="tel:<%= contact.phone %>" class="ui basic icon button" data-tooltip="<%= contact.phone %>">
+					<i class="green phone icon"></i>
+				</a>
+				<% } %>
+				<% if(contact.email){ %>
+				<a href="mailto:<%= contact.email %>" class="ui basic icon button" data-tooltip="<%= contact.email %>">
+					<i class="blue mail icon"></i>
+				</a>
+				<% } %>
+				<a href="/houses" class="ui basic icon button">
+					<i class="brown home icon"></i>
+				</a>
+				<span class="ui basic icon button">
+					<i class="<%= contact.gender %> icon"></i>
+				</span>
+				<% if(contact.anniversaries.length){ %>
+				<div class="ui segments">
+					<div class="ui segment">
+						<h4>Special Days</h4>
+					</div>
+					<div class="ui segment">
+						<table class="ui table">
+							<tbody>
+								<% contact.anniversaries.forEach(function(anniversary){ %>
+								<tr>
+									<td>
+										<h4 class="ui image header">
+											<img src="/contacts/public/img/<%= anniversary.title %>.png" class="ui mini rounded image">
+											<div class="content">
+												<span><%= moment(anniversary.day).format("Do MMMM YYYY"); %></span>
+											</div>
+										</h4>
+									</td>
+								</tr>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<% } %>					
+			</div>
+		</div>
+		<br>
+		<div class="ui stackable grid">
+			<div class="column">
+				<% if(related_contacts.length || contact.related_to_contact){ %>
+				<div class="ui segments">
+					<div class="ui segment">
+						<h4>Related Contacts</h4>
+					</div>
+					<div class="ui segment">
+						<div class="ui four cards">
+							<% related_contacts.forEach(function(related_contact){ %>
+							<div class="ui card">
+								<div class="image">
+									<img src="/contacts/public/uploads/avatars/<% if(related_contact.avatar){ %><%= related_contact.avatar %><% }else{ %>default.jpg<% } %>">
+								</div>
+								<div class="content">
+									<a class="header" href="/contacts/<%= related_contact._id %>"><%= related_contact.full_name %></a>
+									<div class="meta">
+										<span class="capitalize"><%= related_contact.relation %></span>
+									</div>
+								</div>
+							</div>
+							<% }); %>
+							<% if(contact.related_to_contact){ %>
+							<div class="ui card">
+								<div class="image">
+									<img src="/contacts/public/uploads/avatars/<% if(contact.related_to_contact.avatar){ %><%= contact.related_to_contact.avatar %><% }else{ %>default.jpg<% } %>">
+								</div>	
+								<div class="content">
+									<a class="header" href="/contacts/<%= contact.related_to_contact._id %>"><%= contact.related_to_contact.full_name %></a>
+									<div class="meta">
+										<span class="capitalize" id="root-relation" data-root-relation="<%= contact.relation %>">Root</span>
+									</div>
+								</div>
+							</div>
+							<% } %>
+						</div>
+					</div>
+				</div>
+				<% } %>	
+			</div>
+		</div>
+		<br>
+		<div>
+			<a href="/contacts/<%= contact._id %>/edit" class="ui basic primary button">Update</a>
+			<a data-contact-id="<%= contact._id %>" class="ui basic red button remove-contact">Delete</a>
+		</div>
+	</div>
+	<% } %>
+	<% include ../../home/views/partials/footer.ejs %>
+	<% include ../../home/views/partials/scripts.ejs %>	
+	<script src="/contacts/public/js/script.js"></script>
+	<script>
+		$('#root-relation').html(reverse_relarion($('#root-relation').data('root-relation')));
+	</script>
+</body>
+</html>

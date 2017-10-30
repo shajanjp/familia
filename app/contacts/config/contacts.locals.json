@@ -1,0 +1,13 @@
+{
+	"name" : "contacts",
+	"title" : "Contacts",
+	"tagline" : "",
+	"description" : "",
+	"metaKeywords" : "contacts",
+	"metaDescription" : "",
+	"icon" : "",
+	"slider" :"",
+	"url": "/contacts",
+	"routes": ["contacts.server.api.route.js","contacts.server.ui.route.js"],
+	"models": ["contacts.server.model.js", "houses.server.model.js"]
+}

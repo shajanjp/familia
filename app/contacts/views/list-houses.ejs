@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= contacts.title %></title>
+	<meta name="description" content="<%= contacts.metaDescription %>">
+	<meta name="keywords" content="<%=  contacts.metaKeywords %>">
+	<meta name="author" content="guyswhocode">
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<div class="ui text container contact">
+		<img src="/home/public/img/houses-cover.jpg" class="ui rounded fluid image" alt="">		
+		<% if(house_list){ %>
+		<table class="ui table">
+			<thead>
+				<tr>
+					<th>House Name</th>
+					<th>Place</th>
+					<th>Number</th>
+					<th>Geo</th>
+					<th>Members</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% house_list.forEach(function(house){ %>
+				<tr>
+					<td><a href="/houses/<%= house._id %>"><% if(house.title != ""){ %><%= house.title %><% }else{ %><%= house.head_contact.full_name %>'s House <% } %></a></td>
+					<td><%= house.place %></td>
+					<td><%= house.number %></td>
+					<td><a href="<%= house.latlog %>"><i class="ui red point icon"></i></a></td>
+					<td><%= house.contacts.length %></td>
+				</tr>
+				<% }); %>
+			</tbody>
+		</table>
+		<% } %>
+	</div>
+	<% include ../../home/views/partials/footer.ejs %>
+	<% include ../../home/views/partials/scripts.ejs %>	
+	<script src="/contacts/public/js/script.js"></script>
+</body>
+</html>

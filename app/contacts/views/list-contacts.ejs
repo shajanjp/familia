@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= contacts.title %></title>
+	<meta name="description" content="<%= contacts.metaDescription %>">
+	<meta name="keywords" content="<%=  contacts.metaKeywords %>">
+	<meta name="author" content="guyswhocode">
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<div class="ui container contacts-table">
+		<h1><%= contacts_list.length %> Contacts</h1>
+		<table class="ui table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Gender</th>
+					<th>Relation</th>
+					<th>Phone</th>
+					<th>DOB</th>
+					<th>Dead</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% if(contacts_list.length){ %>
+				<% contacts_list.forEach(function(contact){ %>
+				<tr data-contact-id="<%= contact._id %>">
+					<td>
+						<h4 class="ui image header">
+							<img src="/contacts/public/uploads/avatars/<% if(contact.avatar){ %><%= contact.avatar %><% }else{ %>default.jpg<% } %>" class="ui mini rounded image">
+							<div class="content">
+								<a href="/contacts/<%= contact._id %>"><%= contact.full_name %></a>
+							</div>
+						</h4>
+					</td>
+					<td><i class="ui <%= contact.gender %> large icon"></i></td>
+					<td><% if(contact.related_to_contact){ %><a href="/contacts/<%= contact.related_to_contact._id %>"><%= contact.related_to_contact.full_name %></a>'s <%= contact.relation %><% } %></td>
+					<td><%= contact.phone %></td>
+					<td><% if(contact.anniversaries.length){ %><%= moment(contact.anniversaries[0].day).format("Do MMM YYYY"); %><% } %></td>
+					<td><% if(contact.is_dead){ %><i class="ui check icon"></i><% } %></td>
+					<td class="contact-actions">
+						<a href="/contacts/<%= contact._id %>/edit" class="ui basic icon button" data-tooltip="Edit <%= contact.full_name %>" data-inverted="">
+							<i class="blue edit icon"></i>
+						</a>
+						<div class="ui basic icon button remove-contact" data-tooltip="Remove <%= contact.full_name %>" data-inverted="">
+							<i class="red trash icon"></i>
+						</div>
+						<div class="ui basic icon button view-home" data-tooltip="View <%= contact.full_name %>'s home" data-inverted="">
+							<i class="brown home icon"></i>
+						</div>
+					</td>
+				</tr>
+				<% });}  %>
+			</tbody>
+			<tfoot class="full-width">
+				<tr>
+					<th colspan="7">
+						<a href="/contacts/add" class="ui right floated small primary button">Add Person</a>
+<!-- 						<a class="ui small right floated primary button">
+							Check All
+						</a> -->
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+	<div class="ui mini modal">
+		<div class="ui icon header">
+			<i class="archive icon"></i>
+			Archive Old Messages
+		</div>
+		<div class="content">
+			<p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+		</div>
+		<div class="actions">
+			<div class="ui default cancel button">
+				<i class="remove icon"></i>
+				No
+			</div>
+			<div class="ui green ok button">
+				<i class="checkmark icon"></i>
+				Yes
+			</div>
+		</div>
+	</div>
+
+	<% include ../../home/views/partials/footer.ejs %>
+	<% include ../../home/views/partials/scripts.ejs %>
+	<script src="/contacts/public/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Update <%= contact.full_name %> - Familia</title>
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<% if(contact){ %>
+	<section class="ui container">
+		<div class="ui grid">
+			<div class="eight wide column" id="person_form">
+				<div class="ui segment">
+					<h1 class="ui header">Edit contact :  <%= contact.full_name %></h1>
+					<form action="/api/contacts/<%= contact._id %>" enctype="multipart/form-data" id="update-contact-form" class="ui form" data-contact-id="<%= contact._id %>">
+						<div class="three fields">
+							<div class="field">
+								<label for="full_name">Full Name</label>
+								<input type="text" name="full_name" placeholder="Shajan Jacob" value="<%= contact.full_name %>">
+							</div>
+							<div class="field">
+								<label for="nick_name">Nick Name</label>
+								<input type="text" name="nick_name" placeholder="Shajan Jacob" value="<%= contact.nick_name %>">
+							</div>
+							<div class="field">
+								<label for="gender">Gender</label>
+								<select name="gender" id="select_gender" class="ui fluid dropdown">
+									<option value="<%= contact.gender %>" selected><%= contact.gender.charAt(0).toUpperCase() + contact.gender.slice(2); %></option>
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</select>
+							</div>
+						</div>
+						<div class="field">
+							<label for="file" class="ui basic icon button">
+								Choose Avatar Image
+							</label>
+							<input type="file" id="file" name="avatar" style="display:none">
+						</div>
+						<div id="anniversaries-list">
+							<% if(contact.anniversaries.length>0){ %>
+							<% contact.anniversaries.forEach(function(ani){ %>
+							<div class="two fields anniversary">
+								<div class="field">
+									<label for="anniversaries[0][title]">Type</label>
+									<select name="anniversaries[0][title]" class="ui fluid search dropdown select-title" data-handle="anni-title">
+										<option value="<%= ani.title %>"><%= ani.title.charAt(0).toUpperCase() + ani.title.slice(1); %></option>
+										<option value="birth">Birth</option>
+										<option value="wedding">Wedding</option>
+										<option value="feast">Feast</option>
+										<option value="death">Death</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="anniversaries[0][day]">Date</label>
+									<div class="ui calendar select-day">
+										<div class="ui input">
+											<input type="text" data-handle="anni-day" name="anniversaries[0][day]" placeholder="YYYY-MM-DD" autocomplete="off" value="<%= moment(ani.day).format("YYYY-MM-DD"); %>">
+										</div>
+									</div>
+								</div>
+							</div>
+							<% });}else{ %>
+							<div class="two fields anniversary">
+								<div class="field">
+									<label for="anniversaries[0][title]">Type</label>
+									<select name="anniversaries[0][title]" class="ui fluid search dropdown select-title" data-handle="anni-title">
+										<option value="birth">Birth</option>
+										<option value="wedding">Wedding</option>
+										<option value="feast">Feast</option>
+										<option value="death">Death</option>
+									</select>
+								</div>
+								<div class="field">
+									<label for="anniversaries[0][day]">Date</label>
+									<div class="ui calendar select-day">
+										<div class="ui input">
+											<input type="text" name="anniversaries[0][day]" placeholder="YYYY-MM-DD" autocomplete="off" data-handle="anni-day">
+										</div>
+									</div>
+								</div>
+							</div>
+							<% } %>
+						</div>
+						<span class="ui icon button" id="add-anniversary"><i class="green add icon"></i></span>
+						<div class="two fields">
+							<div class="field">
+								<label for="related_to_contact">Person</label>
+								<select name="related_to_contact" id="select_person" class="ui search fluid dropdown">
+									<option value="none">None</option>
+								</select>
+							</div>
+							<div class="field">
+								<label for="reation">Relation</label>
+								<select name="relation" id="select_relation" class="ui fluid search dropdown">
+									<option value="none">None</option>
+									<option value="brother">Brother</option>
+									<option value="daughter">Daughter</option>
+									<option value="husband">Husband</option>
+									<option value="sister">Sister</option>
+									<option value="son">Son</option>
+									<option value="wife">Wife</option>
+								</select>
+							</div>
+						</div>
+						<div class="two fields">
+							<div class="field">
+								<label for="phone">Phone</label>
+								<input type="text" name="phone" placeholder="9191555566" value="<%= contact.phone %>">
+							</div>
+							<div class="field">
+								<label for="email">Email</label>
+								<input type="text" name="email" placeholder="username@domain.com" value="<%= contact.email %>">
+							</div>
+						</div>
+						<div class="field">
+							<label for="is_dead">Is Dead</label>
+							<input type="checkbox" name="is_dead" placeholder="" <% if(contact.is_dead){ %>checked<% } %>>
+						</div>
+						<input type="submit" value="Update" id="update-contact" class="ui fluid primary button">
+					</form>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<img src="/home/public/img/familia-logo-full.png" alt="" class="ui image">
+			</div>
+		</div>
+	</section>
+	<% } %>
+	<% include ../../home/views/partials/scripts.ejs %>
+	<script src="/home/public/js/calendar.min.js"></script>
+	<script>
+		var make_calendar = function(item){
+			$(item).calendar({
+				monthFirst: false,
+				type:'date',
+				formatter: {
+					date: function (date, settings) {
+						if (!date) return '';
+						var day = date.getDate();
+						var month = date.getMonth() + 1;
+						var year = date.getFullYear();
+						return year + '-' + month + '-' + day;
+					}
+				}
+			});
+		};
+
+		$('.select-title').dropdown();
+		$('#select_relation').dropdown();
+		$('#select_gender').dropdown();
+
+		$('#select_person').dropdown({
+			fields: {
+				name: 'full_name',
+				value: '_id'
+			},
+			apiSettings: {
+				url: '/api/contacts/list?contact_name={query}',
+			},
+			localSearch: false
+		});
+
+		make_calendar('.select-day');
+		
+		$('#add-anniversary').on('click', function(req, res){
+			var anni_num = 0;
+			$('#anniversaries-list .anniversary:first').clone().appendTo('#anniversaries-list');
+			$('#anniversaries-list .anniversary:last .select-title, #anniversaries-list .anniversary:last .select-day').val('');
+			$('#anniversaries-list .anniversary:last .select-title').dropdown();
+			make_calendar('#anniversaries-list .anniversary:last .select-day');
+			$('#anniversaries-list .anniversary').each(function(index){
+				$(this).find('[data-handle="anni-title"]').attr('name', "anniversaries[" + anni_num + "][title]");
+				$(this).find('[data-handle="anni-day"]').attr('name', "anniversaries[" + anni_num + "][day]");
+				anni_num++;
+			})
+		});
+
+		$('#update-contact').on('click', function(e){
+			e.preventDefault();
+			$.ajax({
+				type: "PUT",
+				url: '/api/contacts/' + $('#update-contact-form').data('contact-id'),
+				data: new FormData($('form')[0]),
+				contentType: false,
+				processData: false,
+				success: function(data, status, xhr){
+					if(xhr.status == 201)
+						window.location = "/contacts/list";
+				}
+			});
+		});
+	</script>
+</body>
+</html>

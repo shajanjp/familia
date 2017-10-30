@@ -1,0 +1,32 @@
+body{
+	background-color: #efefef;
+}
+.ui.menu{
+	border-radius: 0px;
+}
+footer#main-footer{
+	border-radius: 0px;
+	margin-bottom: 0px;
+}
+header#home-header{
+	padding: 100px;
+	border-radius: 4px;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-position: center center;
+	background-image: url('/home/public/img/familia-main-cover.jpg');
+	background-color: #999;
+	background-blend-mode: multiply;
+	filter: grayscale(0.4); 
+}
+header#home-header .branding h1{
+	font-weight: 100;
+	margin-top: 0px;
+	color: white;
+}
+h1.main.header{
+	font-weight: 100;
+}
+.contact .marginless{
+	margin: 0px;
+}

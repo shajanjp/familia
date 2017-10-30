@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><% if(house.title != ""){ %><%= house.title %><% }else{ %><%= house.head_contact.full_name %>'s House <% } %> - Familia</title>
+	<meta name="description" content="<%= contacts.metaDescription %>">
+	<meta name="keywords" content="<%=  contacts.metaKeywords %>">
+	<meta name="author" content="guyswhocode">
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<% if(house){ %>
+	<div class="ui text container house">
+		<header class="house-header">
+			<h1 class="ui center aligned header"><% if(house.title != ""){ %><%= house.title %><% }else{ %><%= house.head_contact.full_name %>'s House <% } %></h1>
+		</header>
+		<div class="ui segments">
+			<div class="ui segment">
+				<h4 class="ui header">Family Members</h4>
+			</div>
+			<div class="ui segment">
+				<div class="ui six doubling cards">
+					<% if(house.contacts.length){ %>
+					<% house.contacts.forEach(function(member){ %>
+					<div class="card">
+						<a href="/contacts/<%= member._id %>" class="image" data-tooltip="<%= member.full_name %>" data-inverted="">
+							<img src="/contacts/public/uploads/avatars/<% if(member.avatar){ %><%= member.avatar %><% }else{ %>default.jpg<% } %>">
+						</a>
+					</div>
+					<% });}  %>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div>
+			<a href="/houses/<%= house._id %>/edit" class="ui basic primary button">Update</a>
+			<a href="/houses/<%= house._id %>" class="ui basic red button remove-house" data-house-id="<%= house._id %>">Delete</a>
+		</div>
+	</div>
+	<% } %>
+	<% include ../../home/views/partials/footer.ejs %>
+	<% include ../../home/views/partials/scripts.ejs %>	
+	<script src="/contacts/public/js/script.js"></script>
+</body>
+</html>

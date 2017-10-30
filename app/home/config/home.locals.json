@@ -1,0 +1,12 @@
+{
+	"name" : "home",
+	"title" : "Familia",
+	"tagline" : "Family management made easy !",
+	"description" : "Easy to use, maintainable MEAN boilerplate.",
+	"metaKeywords" : "MEAN,node,express,mongodb,framework,",
+	"metaDescription" : "",
+	"routes": ["home.server.route.js"],
+	"icon" : "",
+	"slider" :"",
+	"url": "/"
+}

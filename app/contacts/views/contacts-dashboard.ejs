@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Familia</title>
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<div class="ui container">
+		<header class="ui vertical center aligned segment" id="home-header">		
+			<div class="ui center aligned grid">
+				<div class="column branding">
+					<img src="/home/public/img/familia-logo.png" alt="" class="image thumbnail">
+					<h1 class="ui header">Familia</h1>
+				</div>
+			</div>
+		</header>
+		<div class="ui segments">
+			<div class="ui segment">
+				<h4 class="ui header">Recent Contacts</h4>
+			</div>
+			<div class="ui segment">
+				<% if(contacts_list.length){ %>
+				<div class="ui stackable six cards">
+					<% contacts_list.forEach(function(contact){ %>
+					<div class="ui card">
+						<div class="image">
+							<img src="/contacts/public/uploads/avatars/<% if(contact.avatar){ %><%= contact.avatar %><% }else{ %>default.jpg<% } %>">
+						</div>
+						<div class="content">
+							<a class="header" href="/contacts/<%= contact._id %>"><%= contact.full_name %></a>
+							<div class="meta">
+								<span class="capitalize"><%= contact.nick_name %></span>
+							</div>
+						</div>
+					</div>
+					<% }); %>
+				</div>
+				<% } %>
+			</div>
+		</div>
+		<div class="ui segments">
+			<div class="ui segment">
+				<h4 class="ui header">Contacts Statistics</h4>
+			</div>
+			<div class="ui segment" id="contacts-statistics">
+				<div class="ui four cards">
+					<div class="ui card">
+						<div class="image">
+							<canvas id="gender-graph"/>
+						</div>
+						<div class="content">
+							<a class="header">Gender</a>
+						</div>
+					</div>
+					<div class="ui card">
+						<div class="image">
+							<canvas id="age-graph"/>
+						</div>
+						<div class="content">
+							<a class="header">Age</a>
+						</div>
+					</div>
+					<div class="ui card">
+						<div class="image">
+							<canvas id="contact-graph"/>
+						</div>
+						<div class="content">
+							<a class="header">Contact</a>
+						</div>
+					</div>
+					<div class="ui card">
+						<div class="image">
+							<canvas id="married-graph"/>
+						</div>
+						<div class="content">
+							<a class="header">Married</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% include ../../home/views/partials/footer.ejs %>
+	<% include ../../home/views/partials/scripts.ejs %>
+	<script src="/home/public/js/Chart.bundle.min.js"></script>
+	<script>
+		const gender_graph = $('#gender-graph');
+		const age_graph = $('#age-graph');
+		const married_graph = $('#married-graph');
+		const contact_graph = $('#contact-graph');
+
+		function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+		
+		var myPieChart = new Chart(gender_graph,{
+			type: 'pie',
+			data: {
+				labels: ["Male", "Female"],
+				datasets: [{
+					label: "My First dataset",
+					borderColor: ['rgba(0,0,0,0)', 'rgba(0,0,0,0)'],
+					backgroundColor: ['#f38181', '#fce38a'],
+					data: [getRandomInt(1,50),getRandomInt(1,50)],
+				}]
+			}
+		});
+		var myPieChart = new Chart(age_graph,{
+			type: 'pie',
+			data: {
+				labels: ["0-15", "15-25", "25-40", "40 above"],
+				datasets: [{
+					label: "My First dataset",
+					borderColor: ['rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(0,0,0,0)','rgba(0,0,0,0)'],
+					backgroundColor: ['#f38181', '#fce38a', '#55e9bc', '#95e1d3'],
+					data: [getRandomInt(1,50),getRandomInt(1,50),getRandomInt(1,50),getRandomInt(1,50)],
+				}]
+			}
+		});
+		var myPieChart = new Chart(contact_graph,{
+			type: 'pie',
+			data: {
+				labels: ["Phone", "Email"],
+				datasets: [{
+					label: "My First dataset",
+					borderColor: ['rgba(0,0,0,0)','rgba(0,0,0,0)'],
+					backgroundColor: ['#f38181', '#fce38a'],
+					data: [getRandomInt(1,50),getRandomInt(1,50)],
+				}]
+			}
+		});
+		var myPieChart = new Chart(married_graph,{
+			type: 'pie',
+			data: {
+				labels: ["Married", "single"],
+				datasets: [{
+					label: "My First dataset",
+					borderColor: ['rgba(0,0,0,0)','rgba(0,0,0,0)'],
+					backgroundColor: ['#f38181', '#fce38a'],
+					data: [getRandomInt(1,50),getRandomInt(1,50)],
+				}]
+			}
+		});	</script>
+	</body>
+	</html>

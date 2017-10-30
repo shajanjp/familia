@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Add House</title>
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<div class="ui container">
+		<div class="ui stackable grid">
+			<div class="eight wide column">
+				<div class="ui segment">
+					<h1 class="ui header">Add House</h1>
+					<form action="/api/houses" method="POST" class="ui form" id="house-form">
+						<div class="two fields">
+							<div class="field">
+								<label for="title">Title</label>
+								<input type="text" name="title" placeholder="Agi's Nest">
+							</div>
+							<div class="field">
+								<label for="phone">Phone</label>
+								<input type="text" name="phone" placeholder="0485224455">
+							</div>
+						</div>
+						<div class="two fields">
+							<div class="field">
+								<label for="place">Place</label>
+								<input type="text" name="place" placeholder="Bangalore">
+							</div>
+							<div class="field">
+								<label for="landmark">Landmark</label>
+								<input type="text" name="landmark" placeholder="St Mary's Church">
+							</div>							
+						</div>
+						<div class="field">
+							<label for="latlong">Geolocation</label>
+							<input type="text" name="latlong" placeholder="24.553221,32.124643">
+						</div>
+						<div class="two fields">
+							<div class="field">
+								<label for="head_contact">Head Contact</label>
+								<select name="head_contact" id="select-head-contact" class="ui search dropdown">
+								</select>
+							</div>
+							<div class="field">
+								<label for="contacts">Member Contacts</label>
+								<select name="contacts" id="select-member-contacts" class="ui search multiple dropdown"></select>
+							</div>
+						</div>
+						<input type="submit" value="Add House" id="add-house" class="ui primary button">
+					</form>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<img src="/home/public/img/familia-logo-full.png" alt="" class="ui image">
+			</div>
+		</div>
+	</div>
+	<% include ../../home/views/partials/scripts.ejs %>
+	<script>
+		$('#select-head-contact').dropdown({
+			fields: {
+				name: 'full_name',
+				value: '_id'
+			},
+			apiSettings: {
+				url: '/api/contacts/list?contact_name={query}',
+			},
+			localSearch: false
+		});
+		$('#select-member-contacts').dropdown({
+			fields: {
+				name: 'full_name',
+				value: '_id',
+				image: 'avatar'
+			},
+			apiSettings: {
+				url: '/api/contacts/list?contact_name={query}',
+			},
+			localSearch: false
+		});
+
+		$('#add-house').on('click', function(e){
+			e.preventDefault();
+			$.ajax({
+				url: '/api/houses',
+				type: 'POST',
+				data: $('#house-form').serialize(),
+				success: function(data, status, xhr){
+					if(xhr.status == 201){
+						window.location = "/houses/" + data.house_id;
+					}
+				}
+			})
+		});
+	</script>
+</body>
+</html>
