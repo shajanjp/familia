@@ -1,6 +1,7 @@
 var usersController = require('../controllers/users.server.controller.js');
 var domainRoot = '/api';
 
+
 module.exports = function(app){
 
 	app.route(domainRoot + '/auth')
@@ -20,7 +21,7 @@ module.exports = function(app){
 	.get(usersController.authorize, usersController.meViewAPI);
 
 	app.route(domainRoot + '/users')
-	.get(usersController.authorize, usersController.listUsersAPI)
+	.get(usersController.authorize, usersController.hasRole('admin'), usersController.listUsersAPI)
 	.post(usersController.home);
 
 	app.param('user_id', usersController.userById);
