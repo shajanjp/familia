@@ -36,7 +36,7 @@ var signupUser = function(user, next, res) {
 	User.addUser(user, function(err, user) {
 		if (!err){
 			const token = jwt.sign(
-			{ 
+			{
 				'user_id': user._id,
 				'username': user.username, 
 				'first_name': user.first_name,

@@ -10,10 +10,10 @@ var contactSchema = new Schema({
 		day: Date
 	}],
 	relation_to_contact: String,
-	related_to_contact: { type: Schema.ObjectId, ref: 'contact'},
+	related_to_contact: { type: Schema.ObjectId, ref: 'contact' },
 	phone: String,
 	email: String,
-	avatar: String, 
+	avatar: String,
 	is_dead: Boolean
 });
 
