@@ -1,6 +1,9 @@
 body{
 	background-color: #efefef;
 }
+#main-navbar img{
+	height: 32px;
+}
 .ui.menu{
 	border-radius: 0px;
 }
