@@ -121,12 +121,12 @@ exports.updateContactAPI = function(req, res){
 exports.listContactAPI = function(req, res){
 	Contact.find({})
 	.populate({ path: 'related_to_contact', select: 'full_name _id' })
-	.exec(function(err, contact_list){
-		if (err || contact_list==null || contact_list==undefined)
-			res.status(401).json({ err: err });
-		else{
-			res.json(contact_list)
-		}
+	.exec()
+	.then(function(contact_list){
+		res.json(contact_list)
+	})
+	.catch(function(err){
+		res.status(401).json({ err: err });
 	});
 }
 
