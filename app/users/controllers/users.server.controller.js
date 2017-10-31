@@ -34,10 +34,24 @@ exports.userById = function(req, res, next, user_id){
 // Adds a user to the database using the given username and password
 var signupUser = function(user, next, res) {
 	User.addUser(user, function(err, user) {
-		if (!err)
-			res.status(201).send("User added !");
+		if (!err){
+			const token = jwt.sign(
+			{ 
+				'user_id': user._id,
+				'username': user.username, 
+				'first_name': user.first_name,
+				'role': user.role
+			}, 
+			config.auth_secret, {
+				algorithm: "HS256",
+					expiresIn: 604800
+				});
+
+			res.cookie('access_token', token, { maxAge: 7*24*60*60*100, httpOnly: true });
+			res.status(201).json({ 'msg': 'User added !', access_token: token });
+		}
 		else	
-			res.status(500).json({ msg: "Error in saving !"});
+			res.status(500).json({ 'msg': 'Error in saving !' });
 	});
 };
 
