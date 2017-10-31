@@ -9,7 +9,8 @@ var userSchema = new Schema({
 	username: String, 
 	password: String,
 	email: String,
-	role: String
+	role: String,
+	contact: { type: Schema.ObjectId, ref: 'contact' }
 });
 
 const User = module.exports = mongoose.model('user', userSchema);
