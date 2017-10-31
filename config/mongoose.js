@@ -1,6 +1,7 @@
 var config = require('./env/'+ process.env.NODE_ENV +'.js');
+var bluebird = require('bluebird');
 const mongoose = require('mongoose');
-mongoose.Promise = Promise;
+mongoose.Promise = bluebird;
 
 var activeModules = require('./modules.js').activeModules;
 var moduleModels;
