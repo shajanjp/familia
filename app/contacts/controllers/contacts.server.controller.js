@@ -120,10 +120,10 @@ exports.updateContactAPI = function(req, res){
 
 exports.listContactAPI = function(req, res){
 	Contact.find({})
-	.populate({ path: 'related_to_contact', select: 'full_name _id'})
+	.populate({ path: 'related_to_contact', select: 'full_name _id' })
 	.exec(function(err, contact_list){
 		if (err || contact_list==null || contact_list==undefined)
-			res.status(401).json(err);
+			res.status(401).json({ err: err });
 		else{
 			res.json(contact_list)
 		}
@@ -133,7 +133,7 @@ exports.listContactAPI = function(req, res){
 exports.fetchContactAPI = function(req, res){
 	var search = new RegExp('^(.* |)'+ req.query.contact_name +'.*$', "i");
 	Contact.find({$or:[{full_name:search},{nick_name:search}]}, {_id: 1, full_name: 1, avatar: 1, related_to_contact: 1, relation_to_contact: 1})
-	.populate({ path: 'related_to_contact', select: '_id full_name'})
+	.populate({ path: 'related_to_contact', select: '_id full_name' })
 	.exec(function(err, contact_list){
 		if (err || contact_list==null || contact_list==undefined)
 			res.status(401).json(err);
@@ -155,17 +155,17 @@ exports.fetchContactAPI = function(req, res){
 }
 
 exports.viewContactUI = function(req, res){
-	Contact.findOne({_id:req.contact_id})
-	.populate({ path: 'related_to_contact'})
+	Contact.findOne({ _id: req.contact_id })
+	.populate({ path: 'related_to_contact' })
 	.exec(function(err, contact){
 		if (err || contact==null || contact==undefined)
 			res.status(401).json(err);
 		else{
-			Contact.find({related_to_contact:contact._id}, function(err, related_contacts){
+			Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
 				if (err || related_contacts==null || related_contacts==undefined)
-					res.status(401).json(err);
+					res.status(401).json({ 'err': err });
 				else{
-					res.render('contacts/views/view-contact', {contact: contact, related_contacts: related_contacts, moment:moment})
+					res.render('contacts/views/view-contact', { contact: contact, related_contacts: related_contacts, moment:moment });
 				}
 			});
 		}
@@ -173,9 +173,9 @@ exports.viewContactUI = function(req, res){
 }
 
 exports.viewContactAPI = function(req, res){
-	Contact.findOne({_id:req.contact_id}, function(err, contact){
+	Contact.findOne({ _id: req.contact_id }, function(err, contact){
 		if (err || contact==null || contact==undefined)
-			res.status(401).json(err);
+			res.status(401).json({ 'err': err });
 		else{
 			res.json(contact);
 		}
@@ -183,11 +183,11 @@ exports.viewContactAPI = function(req, res){
 }
 
 exports.editContactUI = function(req, res){
-	Contact.findOne({_id:req.contact_id}, function(err, contact){
+	Contact.findOne({ _id: req.contact_id }, function(err, contact){
 		if (err || contact==null || contact==undefined)
-			res.status(401).json(err);
+			res.status(401).json({ 'err': err });
 		else{
-			res.render('contacts/views/edit-contact', {contact:contact, moment:moment});
+			res.render('contacts/views/edit-contact', { contact: contact, moment: moment });
 		}
 	});
 }
@@ -195,9 +195,9 @@ exports.editContactUI = function(req, res){
 exports.contactsDashboardUI = function(req, res){
 	Contact.find({}, function(err, contacts_list){
 		if (err || contacts_list==null || contacts_list==undefined)
-			res.status(401).json(err);
+			res.status(401).json({ 'err': err });
 		else{
-			res.render('contacts/views/contacts-dashboard', {contacts_list:contacts_list});
+			res.render('contacts/views/contacts-dashboard', { contacts_list: contacts_list });
 		}
 	}).limit(6);
 }
@@ -207,15 +207,15 @@ exports.home = function(req, res){
 }
 
 exports.removeContactAPI = function(req, res){
-	Contact.remove({_id:req.contact_id}, function(err){
+	Contact.remove({ _id: req.contact_id }, function(err){
 		if (err)
 			res.json(err);
 		else {
-			Contact.update({ related_to_contact: req.contact_id }, {$unset: {related_to_contact: 1,relation_to_contact: 1}}, { safe:true }, function(err, doc){
+			Contact.update({ related_to_contact: req.contact_id }, { $unset: {related_to_contact: 1, relation_to_contact: 1}}, { safe:true }, function(err, doc){
 				if (err) 
-					res.status(500).json(err);
+					res.status(500).json({ 'err': err });
 				else
-					res.status(200).json({'msg': 'Contact Removed !', 'success': true});
+					res.status(200).json({ 'msg': 'Contact Removed !', 'success': true });
 			});
 		}
 	});
@@ -235,57 +235,63 @@ exports.createHouseAPI = function(req, res){
 	var house = new House(req.body);
 	house.save(function(err, house){
 		if(err)
-			res.status(500).json(err)
+			res.status(500).json({ 'err': err });
 		else
-			res.status(201).json({'msg':'House added !', house_id: house._id});
+			res.status(201).json({ 'msg': 'House added !', house_id: house._id });
 	});
 }
 
 exports.listHousesUI = function(req, res){
 	House.find({})
-	.populate({ path: 'head_contact', select: 'full_name avatar _id'}) 
+	.populate({ path: 'head_contact', select: 'full_name avatar _id' }) 
 	.exec(function(err, house_list){
 		if (err || house_list==null || house_list==undefined)
-			res.status(401).json(err);
+			res.status(401).json({ 'err': err });
 		else{
-			res.render('contacts/views/list-houses', {house_list:house_list});
+			res.render('contacts/views/list-houses', { house_list: house_list });
 		}
 	});
 } 
 
 exports.viewHouseUI = function(req, res){
-	House.findOne({_id:req.house_id})
-	.populate({ path: 'contacts', select: 'full_name avatar relation_to_contact _id'})
-	.populate({ path: 'head_contact', select: 'full_name avatar _id'})
+	House.findOne({ _id: req.house_id })
+	.populate({ path: 'contacts', select: 'full_name avatar relation_to_contact _id' })
+	.populate({ path: 'head_contact', select: 'full_name avatar _id' })
 	.exec(function(err, house){
 		if (err || house==null || house==undefined)
-			res.status(401).json(err);
+			res.status(401).json({ 'err': err });
 		else{
-			res.render('contacts/views/view-house', {house:house});
+			res.render('contacts/views/view-house', { house: house });
 		}
 	});
 }
 
 exports.viewStatisticsUI = function(req, res){
 	Contact.aggregate([
-		{$project: {
+	{
+		$project: {
 			male: {$cond: [{$eq: ["$gender", "male"]}, 1, 0]},
 			female: {$cond: [{$eq: ["$gender", "female"]}, 1, 0]},
-		}},
-		{$group: { _id: null, male: {$sum: "$male"},
-		female: {$sum: "$female"},
-		total: {$sum: 1},
-	}}], function(err, result){
+		}
+	},
+	{
+		$group: { 
+			_id: null, 
+			male: { $sum: "$male" },
+			female: {$sum: "$female"},
+			total: {$sum: 1}
+		}
+	}], function(err, result){
 		res.json(result);
 	});
 }
 
 exports.removeHouseAPI = function(req, res){
-	House.remove({_id:req.house_id}, function(err){
+	House.remove({ _id: req.house_id }, function(err){
 		if (err)
-			res.json(err);
+			res.json({'err': err});
 		else{
-			res.json({'msg': 'House Removed !', 'success': true});
+			res.json({ 'msg': 'House Removed !', 'success': true });
 		}
 	});
 }
