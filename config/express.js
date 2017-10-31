@@ -5,6 +5,8 @@ var compress = require('compression');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var activeModules = require('./modules.js').activeModules;
+var helmet = require('helmet');
+var jwt = require('jsonwebtoken');
 
 module.exports = function(){
 	var app = express();
