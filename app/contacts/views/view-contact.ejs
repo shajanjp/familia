@@ -80,7 +80,7 @@
 								<div class="content">
 									<a class="header" href="/contacts/<%= related_contact._id %>"><%= related_contact.full_name %></a>
 									<div class="meta">
-										<span class="capitalize"><%= related_contact.relation %></span>
+										<span class="capitalize"><%= related_contact.relation_to_contact %></span>
 									</div>
 								</div>
 							</div>
@@ -93,7 +93,7 @@
 								<div class="content">
 									<a class="header" href="/contacts/<%= contact.related_to_contact._id %>"><%= contact.related_to_contact.full_name %></a>
 									<div class="meta">
-										<span class="capitalize" id="root-relation" data-root-relation="<%= contact.relation %>">Root</span>
+										<span class="capitalize" id="root-relation" data-root-relation="<%= contact.relation_to_contact %>">Root</span>
 									</div>
 								</div>
 							</div>

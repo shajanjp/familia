@@ -44,11 +44,10 @@ exports.addContactUI = function(req, res){
 }
 
 exports.createContactAPI = function(req, res){
-	if (req.body.relation == 'none'){
-		delete req.body.relation;
+	if (req.body.relation_to_contact == 'none'){
+		delete req.body.relation_to_contact;
 		delete req.body.related_to_contact;
 	}
-	console.log("day",req.body.anniversaries[0].day)
 	if (req.body.anniversaries[0].day == "" || req.body.anniversaries[0].day == null) {
 		delete req.body.anniversaries;
 	}
@@ -84,8 +83,8 @@ exports.createContactAPI = function(req, res){
 
 exports.updateContactAPI = function(req, res){
 	console.log("body", req.body);
-	if (req.body.relation == 'none'){
-		delete req.body.relation;
+	if (req.body.relation_to_contact == 'none'){
+		delete req.body.relation_to_contact;
 		delete req.body.related_to_contact;
 	}
 	if (req.body.anniversaries[0].day == "" || req.body.anniversaries[0].day == null) {
@@ -137,7 +136,7 @@ exports.listContactAPI = function(req, res){
 
 exports.fetchContactAPI = function(req, res){
 	var search = new RegExp('^(.* |)'+ req.query.contact_name +'.*$', "i");
-	Contact.find({$or:[{full_name:search},{nick_name:search}]}, {_id: 1, full_name: 1, avatar: 1, related_to_contact: 1, relation: 1})
+	Contact.find({$or:[{full_name:search},{nick_name:search}]}, {_id: 1, full_name: 1, avatar: 1, related_to_contact: 1, relation_to_contact: 1})
 	.populate({ path: 'related_to_contact', select: '_id full_name'})
 	.exec(function(err, contact_list){
 		if (err || contact_list==null || contact_list==undefined)
@@ -148,7 +147,7 @@ exports.fetchContactAPI = function(req, res){
 				var temp_con = {};
 				temp_con.full_name = con.full_name;
 				if(con.related_to_contact)
-					temp_con.description = con.related_to_contact.full_name + "'s " + con.relation;
+					temp_con.description = con.related_to_contact.full_name + "'s " + con.relation_to_contact;
 				temp_con.avatar = '/contacts/public/uploads/avatars/' + (con.avatar || 'default.jpg');
 				temp_con.url = '/contacts/' + con._id;
 				temp_con._id = con._id;
@@ -216,7 +215,7 @@ exports.removeContactAPI = function(req, res){
 		if (err)
 			res.json(err);
 		else {
-			Contact.update({ related_to_contact: req.contact_id }, {$unset: {related_to_contact: 1,relation: 1}}, { safe:true }, function(err, doc){
+			Contact.update({ related_to_contact: req.contact_id }, {$unset: {related_to_contact: 1,relation_to_contact: 1}}, { safe:true }, function(err, doc){
 				if (err) 
 					res.status(500).json(err);
 				else
@@ -260,7 +259,7 @@ exports.listHousesUI = function(req, res){
 
 exports.viewHouseUI = function(req, res){
 	House.findOne({_id:req.house_id})
-	.populate({ path: 'contacts', select: 'full_name avatar relation _id'})
+	.populate({ path: 'contacts', select: 'full_name avatar relation_to_contact _id'})
 	.populate({ path: 'head_contact', select: 'full_name avatar _id'})
 	.exec(function(err, house){
 		if (err || house==null || house==undefined)

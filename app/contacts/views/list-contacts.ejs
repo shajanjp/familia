@@ -37,7 +37,7 @@
 						</h4>
 					</td>
 					<td><i class="ui <%= contact.gender %> large icon"></i></td>
-					<td><% if(contact.related_to_contact){ %><a href="/contacts/<%= contact.related_to_contact._id %>"><%= contact.related_to_contact.full_name %></a>'s <%= contact.relation %><% } %></td>
+					<td><% if(contact.related_to_contact){ %><a href="/contacts/<%= contact.related_to_contact._id %>"><%= contact.related_to_contact.full_name %></a>'s <%= contact.relation_to_contact %><% } %></td>
 					<td><%= contact.phone %></td>
 					<td><% if(contact.anniversaries.length){ %><%= moment(contact.anniversaries[0].day).format("Do MMM YYYY"); %><% } %></td>
 					<td><% if(contact.is_dead){ %><i class="ui check icon"></i><% } %></td>
