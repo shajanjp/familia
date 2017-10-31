@@ -20,7 +20,36 @@ module.exports = function(){
 	}));
 	app.use(cookieParser());
 
-	
+	// security-related HTTP headers:
+	app.use(helmet());
+
+	//Auth user details from JWT 
+	app.use(function (req, res, next) {
+		let token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || (req.cookies && req.cookies.access_token) || req.headers['x-access-token'];
+		if (token) {
+			jwt.verify(token, config.auth_secret, function(err, decoded) {
+				if (err) { 
+					app.locals.auth_user = null;
+					console.log('test');
+					next();
+				} else {
+					app.locals.auth_user = req.auth_user = {};
+					app.locals.auth_user.username = req.auth_user.username = decoded.username;
+					app.locals.auth_user.first_name = req.auth_user.first_name = decoded.first_name;
+					app.locals.auth_user._id = req.auth_user._id = decoded.user_id;
+					app.locals.auth_user.role = req.auth_user.role = decoded.role;
+					console.log('decoded');
+					next();
+				}
+			});
+		} else {
+			app.locals.auth_user = null;
+			console.log('not avail');
+			next();
+		}
+
+	});
+
 	// Setting view engine
 	app.set('view engine', 'ejs');
 	app.set('views', './app');

@@ -4,6 +4,14 @@
 			<img src="/home/public/img/familia-logo.png">
 		</div>
 		<a href="/" class="item">Familia</a>
+		<div class="item">
+			<div class="ui search" id="navbar-search-contacts">
+				<div class="ui left icon input">
+					<input class="prompt" placeholder="Search Contacts" type="text">
+					<i class="address book outline icon"></i>
+				</div>
+			</div>
+		</div>
 		<div class="ui dropdown item">
 			Contacts
 			<i class="dropdown icon"></i>
@@ -20,15 +28,20 @@
 				<a href="/houses/list" class="item">List</a>
 			</div>
 		</div>
-		<div class="right menu">
-			<div class="item">
-				<div class="ui search" id="navbar-search-contacts">
-					<div class="ui left icon input">
-						<input class="prompt" placeholder="Search Contacts" type="text">
-						<i class="address book outline icon"></i>
-					</div>
-				</div>
+		<% if(auth_user){ %>
+		<div class="ui right dropdown item">
+			<%= auth_user.first_name %>
+			<i class="dropdown icon"></i>
+			<div class="menu">
+				<a href="/settings" class="item">Settings</a>
+				<a href="/profile" class="item">Profile</a>
+				<a href="/api/signout" class="item">Sign Out</a>
 			</div>
 		</div>
+		<% } else { %>
+		<div class="ui right item">
+			<a href="/signup">Sign Up</a>&nbsp or &nbsp<a href="/signin">Sign In</a>
+		</div>
+		<% } %>
 	</div>
 </div>
