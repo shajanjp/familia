@@ -6,9 +6,9 @@ var gm = require('gm').subClass({imageMagick: true});
 var fs = require('fs');
 
 exports.contactById = function(req, res, next, contact_id){
-	Contact.findOne({_id: contact_id}, function(err, contact){
+	Contact.findOne({ _id: contact_id }, function(err, contact){
 		if(err || contact===null || contact===undefined)
-			res.status(404).json({'msg':'Invalid Contact !'});
+			res.status(404).json({ 'msg':'Invalid Contact !' });
 		else{
 			req.contact_id = contact._id;
 			next();
@@ -17,9 +17,9 @@ exports.contactById = function(req, res, next, contact_id){
 }
 
 exports.houseById = function(req, res, next, house_id){
-	House.findOne({_id: house_id}, function(err, house){
+	House.findOne({ _id: house_id }, function(err, house){
 		if(err || house===null || house===undefined)
-			res.status(404).json({'msg':'Invalid House !'});
+			res.status(404).json({ 'msg':'Invalid House !' });
 		else{
 			req.house_id = house._id;
 			next();
@@ -29,12 +29,12 @@ exports.houseById = function(req, res, next, house_id){
 
 exports.listContactUI = function(req, res){
 	Contact.find({})
-	.populate({ path: 'related_to_contact', select: 'full_name _id'})
+	.populate({ path: 'related_to_contact', select: 'full_name _id' })
 	.exec(function(err, contacts_list){
 		if (err || contacts_list==null || contacts_list==undefined)
 			res.status(401).json(err);
 		else{
-			res.render('contacts/views/list-contacts', {contacts_list: contacts_list, moment: moment});
+			res.render('contacts/views/list-contacts', { contacts_list: contacts_list, moment: moment });
 		}
 	});
 }
@@ -67,14 +67,13 @@ exports.createContactAPI = function(req, res){
 					if (err)
 						res.json(err);
 					else{
-						console.log('Done uploading !');
 						fs.unlink(req.file.path);
-						res.status(201).json({'msg':'Contact Added !',contact_id: contact._id});
+						res.status(201).json({ 'msg': 'Contact Added !', contact_id: contact._id });
 					}
 				});
 			}
 			else{
-				res.status(201).json({'msg' : 'Contact Added !',contact_id: contact._id});
+				res.status(201).json({ 'msg': 'Contact Added !', contact_id: contact._id });
 
 			}
 		}
