@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Add House</title>
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<div class="ui grid container">
+		<div class="six wide column"></div>
+		<div class="four wide column">
+			<div class="ui segment">
+				<form action="/api/signin" method="POST" class="ui form">
+					<div class="field">
+						<label for="title">Username</label>
+						<input type="text" name="username" placeholder="Username">
+					</div>
+					<div class="field">
+						<label for="title">Password</label>
+						<input type="password" name="password" placeholder="Password">
+					</div>
+					<input type="submit" value="Sign In" class="ui basic primary button">
+				</form>
+			</div>
+		</div>
+	</div>
+	<% include ../../home/views/partials/scripts.ejs %>
+</body>
+</html>

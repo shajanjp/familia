@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Add House</title>
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body>
+	<% include ../../home/views/partials/navbar.ejs %>
+	<div class="ui container">
+		<div class="ui stackable grid">
+			<div class="four wide column">
+				<div class="ui segment">
+					<form action="/api/signup" method="POST" class="ui form">
+						<div class="two fields">
+							<div class="field">
+								<label for="first_name">First Name</label>
+								<input type="text" name="first_name" placeholder="first_name">
+							</div>
+							<div class="field">
+								<label for="last_name">Last Name</label>
+								<input type="text" name="last_name" placeholder="last_name">
+							</div>
+						</div>
+						<div class="field">
+							<label for="email">Email</label>
+							<input type="text" name="email" placeholder="Email">
+						</div>
+						<div class="field">
+							<label for="username">Username</label>
+							<input type="text" name="username" placeholder="Username">
+						</div>
+						<div class="field">
+							<label for="username">Password</label>
+							<input type="password" name="password" placeholder="Password">
+						</div>
+						<input type="submit" value="Sign Up" class="ui basic green button">
+					</form>
+				</div>
+			</div>
+			<div class="twelve wide column">
+				<img src="/home/public/img/familia-logo-full.png" alt="" class="ui image">
+			</div>
+		</div>
+	</div>
+	<% include ../../home/views/partials/scripts.ejs %>
+	<script>
+		$('#select-head-contact').dropdown({
+			fields: {
+				name: 'full_name',
+				value: '_id'
+			},
+			apiSettings: {
+				url: '/api/contacts/list?contact_name={query}',
+			},
+			localSearch: false
+		});
+		$('#select-member-contacts').dropdown({
+			fields: {
+				name: 'full_name',
+				value: '_id',
+				image: 'avatar'
+			},
+			apiSettings: {
+				url: '/api/contacts/list?contact_name={query}',
+			},
+			localSearch: false
+		});
+
+		$('#add-house').on('click', function(e){
+			e.preventDefault();
+			$.ajax({
+				url: '/api/houses',
+				type: 'POST',
+				data: $('#house-form').serialize(),
+				success: function(data, status, xhr){
+					if(xhr.status == 201){
+						window.location = "/houses/" + data.house_id;
+					}
+				}
+			})
+		});
+	</script>
+</body>
+</html>

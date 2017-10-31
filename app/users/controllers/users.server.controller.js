@@ -138,3 +138,11 @@ exports.signout = function(req, res){
 	res.clearCookie('access_token');
 	res.send({ 'msg': 'Signed out !' });
 }
+
+exports.signinUI = function(req, res){
+	res.render('users/views/signin');
+}
+
+exports.signupUI = function(req, res){
+	res.render('users/views/signup');
+}

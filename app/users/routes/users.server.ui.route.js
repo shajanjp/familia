@@ -7,5 +7,11 @@ module.exports = function(app){
 	.get(usersController.home)
 	.post(usersController.home);
 
+	app.route(domainRoot + '/signin')
+	.get(usersController.signinUI);
+
+	app.route(domainRoot + '/signup')
+	.get(usersController.signupUI);
+
 	app.param('user_id', usersController.userById);
 }
