@@ -13,7 +13,7 @@
 		<div class="ui stackable grid">
 			<div class="four wide column">
 				<div class="ui segment">
-					<form action="/api/signup" method="POST" class="ui form">
+					<form action="/api/signup" method="POST" class="ui form" id="user-form">
 						<div class="two fields">
 							<div class="field">
 								<label for="first_name">First Name</label>
@@ -36,48 +36,26 @@
 							<label for="username">Password</label>
 							<input type="password" name="password" placeholder="Password">
 						</div>
-						<input type="submit" value="Sign Up" class="ui basic green button">
+						<input type="submit" value="Sign Up" class="ui basic green button" id="add-user">
 					</form>
 				</div>
 			</div>
 			<div class="twelve wide column">
-				<img src="/home/public/img/familia-logo-full.png" alt="" class="ui image">
+				<img src="/home/public/img/familia-logo-full.png" alt="" class="ui centered image">
 			</div>
 		</div>
 	</div>
 	<% include ../../home/views/partials/scripts.ejs %>
 	<script>
-		$('#select-head-contact').dropdown({
-			fields: {
-				name: 'full_name',
-				value: '_id'
-			},
-			apiSettings: {
-				url: '/api/contacts/list?contact_name={query}',
-			},
-			localSearch: false
-		});
-		$('#select-member-contacts').dropdown({
-			fields: {
-				name: 'full_name',
-				value: '_id',
-				image: 'avatar'
-			},
-			apiSettings: {
-				url: '/api/contacts/list?contact_name={query}',
-			},
-			localSearch: false
-		});
-
-		$('#add-house').on('click', function(e){
+		$('#add-user').on('click', function(e){
 			e.preventDefault();
 			$.ajax({
-				url: '/api/houses',
+				url: '/api/signup',
 				type: 'POST',
-				data: $('#house-form').serialize(),
+				data: $('#user-form').serialize(),
 				success: function(data, status, xhr){
 					if(xhr.status == 201){
-						window.location = "/houses/" + data.house_id;
+						window.location = "/";
 					}
 				}
 			})
