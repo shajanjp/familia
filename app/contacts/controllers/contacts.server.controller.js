@@ -82,7 +82,6 @@ exports.createContactAPI = function(req, res){
 }
 
 exports.updateContactAPI = function(req, res){
-	console.log("body", req.body);
 	if (req.body.relation_to_contact == 'none'){
 		delete req.body.relation_to_contact;
 		delete req.body.related_to_contact;
@@ -93,10 +92,10 @@ exports.updateContactAPI = function(req, res){
 	if(req.file){
 		req.body.avatar = req.contact_id + '-avatar.jpg';
 	}
-	Contact.findOneAndUpdate({ _id: req.contact_id}, req.body, {safe:true, upsert:true}, function(err, doc){
+	Contact.findOneAndUpdate({ _id: req.contact_id }, req.body, { safe: true, upsert: true }, function(err, doc){
 		if (err) {
 			console.log(err);
-			res.status(500).json('');
+			res.status(500).json({ 'success': false, 'msg': 'Error in updating !' });
 		}
 		else{
 			if(req.file){
@@ -105,18 +104,16 @@ exports.updateContactAPI = function(req, res){
 				.quality(90)
 				.write('app/contacts/public/uploads/avatars/' + req.contact_id + '-avatar.jpg', function (err) {
 					if (err){
-						console.log(err);
-						res.json(err);
+						res.status(500).json({ 'success': false, 'msg': 'Error in updating !' });
 					}
 					else{
-						console.log('Done uploading !');
 						fs.unlink(req.file.path);
-						res.status(201).json({'msg' : 'Contact Updated !'});
+						res.status(201).json({ 'success': true, 'msg': 'Contact Updated !' });
 					}
 				});
 			}
 			else{
-				res.status(201).json({'msg' : 'Contact Updated !'});
+				res.status(201).json({ 'success': true, 'msg': 'Contact Updated !' });
 			}
 		}
 	});
