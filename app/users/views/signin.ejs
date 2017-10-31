@@ -10,10 +10,9 @@
 <body>
 	<% include ../../home/views/partials/navbar.ejs %>
 	<div class="ui grid container">
-		<div class="six wide column"></div>
 		<div class="four wide column">
 			<div class="ui segment">
-				<form action="/api/signin" method="POST" class="ui form">
+				<form action="/api/signin" method="POST" class="ui form" id="signin-form">
 					<div class="field">
 						<label for="title">Username</label>
 						<input type="text" name="username" placeholder="Username">
@@ -22,11 +21,29 @@
 						<label for="title">Password</label>
 						<input type="password" name="password" placeholder="Password">
 					</div>
-					<input type="submit" value="Sign In" class="ui basic primary button">
+					<input type="submit" value="Sign In" class="ui basic primary button" id="user-signin">
 				</form>
 			</div>
 		</div>
+		<div class="twelve wide column">
+			<img src="/home/public/img/familia-logo-full.png" alt="" class="ui image centered">
+		</div>
 	</div>
 	<% include ../../home/views/partials/scripts.ejs %>
+	<script>
+		$('#user-signin').on('click', function(e){
+			e.preventDefault();
+			$.ajax({
+				url: '/api/signin',
+				type: 'POST',
+				data: $('#signin-form').serialize(),
+				success: function(data, status, xhr){
+					if(xhr.status == 200){
+						window.location = "/";
+					}
+				}
+			})
+		});
+	</script>
 </body>
 </html>
