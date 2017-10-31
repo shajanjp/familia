@@ -160,3 +160,7 @@ exports.signinUI = function(req, res){
 exports.signupUI = function(req, res){
 	res.render('users/views/signup');
 }
+
+exports.signoutUI = function(req, res){
+	res.render('users/views/signout');
+}
