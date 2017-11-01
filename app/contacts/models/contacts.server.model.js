@@ -17,4 +17,16 @@ var contactSchema = new Schema({
 	is_dead: Boolean
 });
 
-mongoose.model('contact', contactSchema);
+const Contact = module.exports = mongoose.model('contact', contactSchema);
+
+module.exports.getContactById = function(contact_id){
+	let contact_details;
+	Contact.findOne(contact_id, function(err, contact){
+		if (err || contact==null || contact==undefined)
+			contact_details = {};
+		else{
+			contact_details = contact;
+		}
+	});
+	return contact_details;
+}
