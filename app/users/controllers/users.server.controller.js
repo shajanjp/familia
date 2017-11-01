@@ -1,4 +1,5 @@
 var User = require('mongoose').model('user');
+var Contact = require('mongoose').model('contact');
 var userValidation = require('../lib/users.validation.js');
 var config = require('../../../config/env/' + process.env.NODE_ENV + '.js');
 var bcrypt = require('bcrypt');
@@ -35,17 +36,19 @@ exports.userById = function(req, res, next, user_id){
 var signupUser = function(user, next, res) {
 	User.addUser(user, function(err, user) {
 		if (!err){
+			
 			const token = jwt.sign(
 			{
 				'user_id': user._id,
 				'username': user.username, 
 				'first_name': user.first_name,
 				'role': user.role
-			}, 
-			config.auth_secret, {
+			},
+			config.auth_secret,
+			{
 				algorithm: "HS256",
-					expiresIn: 604800
-				});
+				expiresIn: 604800
+			});
 
 			res.cookie('access_token', token, { maxAge: 7*24*60*60*100, httpOnly: true });
 			res.status(201).json({ 'msg': 'User added !', access_token: token });
@@ -96,8 +99,7 @@ exports.authenticate = function(req, res, next){
 
 		User.comparePassword(password, user.password, (err, isMatch) => {
 			if(err) throw err;
-			if(isMatch){
-				
+			if(isMatch){				
 				const token = jwt.sign(
 				{ 
 					'user_id': user._id,
@@ -106,7 +108,7 @@ exports.authenticate = function(req, res, next){
 				}, 
 				config.auth_secret, {
 					algorithm: "HS256",
-					expiresIn: 604800 // 1 week,
+					expiresIn: 604800
 				});
 
 				res.cookie('access_token', token, { maxAge: 7*24*60*60*100, httpOnly: true });
