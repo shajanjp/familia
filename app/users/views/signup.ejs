@@ -14,23 +14,13 @@
 			<div class="four wide column">
 				<div class="ui segment">
 					<form action="/api/signup" method="POST" class="ui form" id="user-form">
-						<div class="two fields">
-							<div class="field">
-								<label for="first_name">First Name</label>
-								<input type="text" name="first_name" placeholder="first_name">
-							</div>
-							<div class="field">
-								<label for="last_name">Last Name</label>
-								<input type="text" name="last_name" placeholder="last_name">
-							</div>
-						</div>
 						<div class="field">
 							<label for="email">Email</label>
-							<input type="text" name="email" placeholder="Email">
+							<input type="text" name="email" placeholder="johndoe@gmail.com">
 						</div>
 						<div class="field">
 							<label for="username">Username</label>
-							<input type="text" name="username" placeholder="Username">
+							<input type="text" name="username" placeholder="johnd">
 						</div>
 						<div class="field">
 							<label for="username">Password</label>
@@ -55,7 +45,7 @@
 				data: $('#user-form').serialize(),
 				success: function(data, status, xhr){
 					if(xhr.status == 201){
-						window.location = "/";
+						window.location = "/contacts/welcome";
 					}
 				}
 			})
