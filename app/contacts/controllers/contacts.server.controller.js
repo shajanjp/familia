@@ -295,3 +295,12 @@ exports.removeHouseAPI = function(req, res){
 		}
 	});
 }
+
+exports.anniversariesSchedule = function(req, res){
+	Contact.find().sort({ 'anniversaries.day': -1 }).exec(function(err, contacts_list){
+		if(err)
+			res.json({ 'err': err });
+		else
+			res.json(contacts_list);
+	});
+}
