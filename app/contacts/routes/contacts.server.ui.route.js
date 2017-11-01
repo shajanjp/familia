@@ -23,6 +23,9 @@ module.exports = function(app){
 	app.route(domainRoot + '/contacts/list') 
 	.get(contactsController.listContactUI);
 
+	app.route(domainRoot + '/contacts/welcome') 
+	.get(contactsController.welcomeContactUI);
+
 	app.route(domainRoot + '/contacts/add')
 	.get(contactsController.addContactUI); // add.ejs
 

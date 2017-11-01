@@ -304,3 +304,7 @@ exports.anniversariesSchedule = function(req, res){
 			res.json(contacts_list);
 	});
 }
+
+exports.welcomeContactUI = function(req, res){
+	res.render('contacts/views/welcome-contact');
+}
