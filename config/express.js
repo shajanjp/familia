@@ -37,7 +37,6 @@ module.exports = function(){
 				} else {
 					app.locals.auth_user = req.auth_user = {};
 					app.locals.auth_user.username = req.auth_user.username = decoded.username;
-					app.locals.auth_user.first_name = req.auth_user.first_name = decoded.first_name;
 					app.locals.auth_user._id = req.auth_user._id = decoded.user_id;
 					app.locals.auth_user.role = req.auth_user.role = decoded.role;
 					console.log('decoded');

@@ -4,9 +4,7 @@ var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
 	id : Schema.ObjectId,
-	first_name: String,
-	last_name: String,
-	username: String, 
+	username: String,
 	password: String,
 	email: String,
 	role: String,
