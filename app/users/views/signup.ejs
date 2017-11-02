@@ -7,12 +7,12 @@
 	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
 	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
 </head>
-<body>
+<body class="calm-bg">
 	<% include ../../home/views/partials/navbar.ejs %>
 	<div class="ui container">
-		<div class="ui stackable grid">
+		<div class="ui stackable centered grid">
 			<div class="four wide column">
-				<div class="ui segment">
+				<div class="ui segment" style="margin-top: 100px;">
 					<form action="/api/signup" method="POST" class="ui form" id="user-form">
 						<div class="field">
 							<label for="email">Email</label>
@@ -29,9 +29,6 @@
 						<input type="submit" value="Sign Up" class="ui basic green button" id="add-user">
 					</form>
 				</div>
-			</div>
-			<div class="twelve wide column">
-				<img src="/home/public/img/familia-logo-full.png" alt="" class="ui centered image">
 			</div>
 		</div>
 	</div>
