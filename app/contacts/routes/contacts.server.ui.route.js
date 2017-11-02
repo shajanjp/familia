@@ -1,9 +1,13 @@
 var contactsController = require('../controllers/contacts.server.controller.js');
+var usersController = require('../../users/controllers/users.server.controller.js');
 var domainRoot = '';
 
 module.exports = function(app){
 	app.route('/dashboard')
 	.get(contactsController.viewStatisticsUI);
+
+	app.route(domainRoot + '/me')
+	.get(contactsController.viewMyProfileUI);
 	
 	app.route(domainRoot + '/contacts')
 	.get(contactsController.contactsDashboardUI);
@@ -24,13 +28,13 @@ module.exports = function(app){
 	.get(contactsController.listContactUI);
 
 	app.route(domainRoot + '/contacts/welcome') 
-	.get(contactsController.welcomeContactUI);
+	.get(usersController.authorize, contactsController.welcomeContactUI);
 
 	app.route(domainRoot + '/contacts/add')
-	.get(contactsController.addContactUI); // add.ejs
+	.get(contactsController.addContactUI);
 
 	app.route(domainRoot + '/contacts/:contact_id')
-	.get(contactsController.viewContactUI) // view.ejs
+	.get(contactsController.viewContactUI)
 	.put(contactsController.home)
 	.delete(contactsController.home);
 
@@ -38,7 +42,7 @@ module.exports = function(app){
 	.get(contactsController.editContactUI);
 
 	app.route(domainRoot + '/contacts/:contact_id/delete')
-	.get(contactsController.home); // delete.ejs
+	.get(contactsController.home);
 
 	app.param('contact_id', contactsController.contactById);
 	app.param('house_id', contactsController.houseById);
