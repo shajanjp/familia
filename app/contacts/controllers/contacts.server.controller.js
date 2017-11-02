@@ -316,4 +316,20 @@ exports.welcomeContactUI = function(req, res){
 	});
 }
 
+exports.viewMyProfileUI = function(req, res){
+Contact.findOne({ _id: req.auth_user.contact })
+	.populate({ path: 'related_to_contact' })
+	.exec(function(err, contact){
+		if (err || contact==null || contact==undefined)
+			res.status(401).json(err);
+		else{
+			Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
+				if (err || related_contacts==null || related_contacts==undefined)
+					res.status(401).json({ 'err': err });
+				else{
+					res.render('contacts/views/view-contact', { contact: contact, related_contacts: related_contacts, moment:moment });
+				}
+			});
+		}
+	});
 }
