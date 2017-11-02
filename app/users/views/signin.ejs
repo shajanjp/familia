@@ -7,11 +7,11 @@
 	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
 	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
 </head>
-<body>
+<body class="calm-bg">
 	<% include ../../home/views/partials/navbar.ejs %>
-	<div class="ui grid container">
+	<div class="ui centered stackable grid container">
 		<div class="four wide column">
-			<div class="ui segment">
+			<div class="ui segment"  style="margin-top: 150px;">
 				<form action="/api/signin" method="POST" class="ui form" id="signin-form">
 					<div class="field">
 						<label for="title">Username</label>
