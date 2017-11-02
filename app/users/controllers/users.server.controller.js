@@ -124,18 +124,13 @@ exports.authenticate = function(req, res, next){
 
 // Signs in user with the given username and password
 exports.authorize = function(req, res, next){
-	var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || (req.cookies && req.cookies.access_token) || req.headers['x-access-token'];
-	jwt.verify(token, config.auth_secret, function(err, decoded) {
-		if (err) { 
-			return res.status(403).send({ 'msg': "Please login."});
-		} else
-		{
-			req.auth_user = {};
-			req.auth_user._id = decoded.user_id;
-			req.auth_user.role = decoded.role;
-			next();
-		}
-	});
+	if (req.auth_user) {
+		next();
+	}
+	else{
+		res.status(403).json({ 'msg': 'Please login !' });
+	}
+
 }
 
 exports.hasRole = function(role) {
