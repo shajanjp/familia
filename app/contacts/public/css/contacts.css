@@ -25,3 +25,9 @@ header.house-header{
 #contacts-statistics .card .image{
 	padding: 10px;
 }
+
+.calm-bg{
+	background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D'); 
+	background-position: center center;
+	background-size: cover;
+}
