@@ -8,7 +8,7 @@
 	<% include ../../home/views/partials/styles.ejs %>
 	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
 </head>
-<body>
+<body class="calm-bg">
 	<% include ../../home/views/partials/navbar.ejs %>
 	<% if(contact){ %>
 	<div class="ui text container contact">
@@ -17,8 +17,8 @@
 				<img src="/contacts/public/uploads/avatars/<% if(contact.avatar){ %><%= contact.avatar %><% }else{ %>default.jpg<% } %>" class="ui rounded fluid image" alt="">		
 			</div>
 			<div class="eight wide column">
-				<h1 class="ui header marginless"><%= contact.full_name %></h1>
-				<% if(contact.nick_name){ %> <p>(<%= contact.nick_name %>)</p><% } %>
+				<h1 class="ui white header marginless"><%= contact.full_name %></h1>
+				<% if(contact.nick_name){ %> <p class="ui white">(<%= contact.nick_name %>)</p><% } %>
 				<% if(contact.phone){ %>
 				<a href="tel:<%= contact.phone %>" class="ui basic icon button" data-tooltip="<%= contact.phone %>">
 					<i class="green phone icon"></i>

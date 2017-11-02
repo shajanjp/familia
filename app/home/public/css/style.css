@@ -1,6 +1,16 @@
 body{
 	background-color: #efefef;
 }
+.calm-bg{
+    background: #333; /* For browsers that do not support gradients */        
+    background: -webkit-linear-gradient(-90deg, #333, #666); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(-90deg, #333, #666); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(-90deg, #333, #666); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(-90deg, #333, #666); /* Standard syntax (must be last) */
+}
+.ui.white{
+	color: white;
+}
 #main-navbar img{
 	height: 32px;
 }
