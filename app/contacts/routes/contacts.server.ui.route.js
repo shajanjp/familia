@@ -28,7 +28,7 @@ module.exports = function(app){
 	.get(contactsController.viewHouseUI);
 	
 	app.route(domainRoot + '/contacts/list') 
-	.get(contactsController.listContactUI);
+	.get(usersController.authorize, contactsController.listContactUI);
 
 	app.route(domainRoot + '/contacts/welcome') 
 	.get(usersController.authorize, contactsController.welcomeContactUI);
