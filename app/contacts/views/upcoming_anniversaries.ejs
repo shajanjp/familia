@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Welcome to familia</title>
+	<% include ../../home/views/partials/styles.ejs %>
+	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
+	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body class="calm-bg">
+	<% include ../../home/views/partials/navbar.ejs %>
+	<br>
+	<br>
+	<br>
+	<div class="ui container">
+		<div class="ui stackable centered grid">
+			<div class="four wide column">
+				<div class="ui segment">
+					<h3 class="ui header">Events</h3>
+					<div class="ui big list">
+						<% if(anniversaries_list.length){ %>
+						<% anniversaries_list.forEach(function(anniversary){ %>
+						<div class="item">
+							<img class="ui avatar image" src="/contacts/public/img/<%= anniversary.title %>.png">
+							<div class="content">
+								<a class="header"><a href="/contacts/<%= anniversary._id %>"><%= anniversary.full_name %></a></a>
+								<div class="description"><%= moment(anniversary.day).format("MMM Do") %></div>
+							</div>
+						</div>
+						<% });}  %>
+					</div>
+				</div>
+			</div>
+
+			<div class="four wide column">
+				<div class="ui segment">
+					<h3 class="ui header">Events</h3>
+					<div class="ui big list">
+						<% if(anniversaries_list.length){ %>
+						<% anniversaries_list.forEach(function(anniversary){ %>
+						<div class="item">
+							<img class="ui avatar image" src="/contacts/public/img/<%= anniversary.title %>.png">
+							<div class="content">
+								<a class="header"><a href="/contacts/<%= anniversary._id %>"><%= anniversary.full_name %></a></a>
+								<div class="description"><%= moment(anniversary.day).format("MMM Do") %></div>
+							</div>
+						</div>
+						<% });}  %>
+					</div>
+				</div>
+			</div>
+			
+			<div class="four wide column">
+				<div class="ui segment">
+					<h3 class="ui header">Upcoming</h3>
+					<div class="ui big list">
+						<% if(anniversaries_list.length){ %>
+						<% anniversaries_list.forEach(function(anniversary){ %>
+						<div class="item">
+							<img class="ui avatar image" src="/contacts/public/img/<%= anniversary.title %>.png">
+							<div class="content">
+								<a class="header"><a href="/contacts/<%= anniversary._id %>"><%= anniversary.full_name %></a></a>
+								<div class="description"><%= moment(anniversary.day).format("MMM Do") %></div>
+							</div>
+						</div>
+						<% });}  %>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<% include ../../home/views/partials/scripts.ejs %>
+</body>
+</html>

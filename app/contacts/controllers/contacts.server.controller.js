@@ -297,11 +297,23 @@ exports.removeHouseAPI = function(req, res){
 }
 
 exports.anniversariesSchedule = function(req, res){
-	Contact.find().sort({ 'anniversaries.day': -1 }).exec(function(err, contacts_list){
+	Contact.aggregate([ 
+		{ 
+			$project: { full_name:1, 'anniversaries.day': 1,'anniversaries.title': 1 }  
+		},
+		{  
+			$unwind: "$anniversaries"  
+		},
+		{   
+			$project: { full_name: 1, title: '$anniversaries.title', day: { $dateToString: { format: "%m-%d", date: "$anniversaries.day" } } } 
+		},
+		{
+			$sort: { day: 1 }  
+		}]).exec(function(err, anniversaries_list){
 		if(err)
 			res.json({ 'err': err });
 		else
-			res.json(contacts_list);
+			res.render('contacts/views/upcoming_anniversaries', { anniversaries_list: anniversaries_list, moment: moment });
 	});
 }
 

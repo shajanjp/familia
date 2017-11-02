@@ -12,6 +12,9 @@ module.exports = function(app){
 	app.route(domainRoot + '/contacts')
 	.get(contactsController.contactsDashboardUI);
 
+	app.route(domainRoot + '/anniversaries')
+	.get(contactsController.anniversariesSchedule);
+
 	app.route(domainRoot + '/houses')
 	.get(contactsController.housesDashboardUI);
 
