@@ -306,5 +306,14 @@ exports.anniversariesSchedule = function(req, res){
 }
 
 exports.welcomeContactUI = function(req, res){
-	res.render('contacts/views/welcome-contact');
+	Contact.findOne({ _id: req.auth_user.contact }, function(err, contact){
+		if (err || contact==null || contact==undefined){
+			res.render('contacts/views/welcome-contact', { contact: {} });
+		}
+		else{
+			res.render('contacts/views/welcome-contact', { contact: contact });
+		}
+	});
+}
+
 }

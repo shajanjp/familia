@@ -11,13 +11,48 @@
 	<% include ../../home/views/partials/navbar.ejs %>
 	<div class="ui container">
 		<div class="ui stackable centered grid">
-			<div class="ten wide column">
-				<div class="ui segment">		
-					<h1>Welcome to Familia. Be a part of the familia tree by filling your basic details.</h1>
-				</div>
-			</div>
+			<div class="twelve wide column">
+				<div class="ui segment">
+					<div class="ui stackable grid">
+						<div class="ten wide column">
+							<h1>Welcome to Familia. Be a part of the familia tree by filling your basic details.</h1>
+						</div>
+						<div class="six wide column">
+							<form action="/contacts" class="ui form" enctype="multipart/form-data" id="update-contact-form" data-contact-id="<%= contact._id %>">
+								<div class="two fields">
+									<div class="field">
+										<label for="">Full Name</label>
+										<input type="text" name="full_name" value="<%= contact.full_name %>" placeholder="John Doe">
+									</div>
+									<div class="field">
+										<label for="">Nick Name</label>
+										<input type="text" name="nick_name" value="<%= contact.nick_name %>" placeholder="Johnathan">
+									</div>
+								</div>
+								<input type="submit" value="Save" class="ui green basic button" id="update-contact">
+							</form>
+						</div>
+					</div>		
+				</div> <!-- Segment -->
+			</div> <!-- Twleve Column -->
 		</div>
 	</div>
 	<% include ../../home/views/partials/scripts.ejs %>
+	<script>
+		$('#update-contact').on('click', function(e){
+			e.preventDefault();
+			$.ajax({
+				type: "PUT",
+				url: '/api/contacts/' + $('#update-contact-form').data('contact-id'),
+				data: new FormData($('form')[0]),
+				contentType: false,
+				processData: false,
+				success: function(data, status, xhr){
+					if(xhr.status == 201)
+						window.location = "/contacts/list";
+				}
+			});
+		});
+	</script>
 </body>
 </html>
