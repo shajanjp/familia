@@ -32,9 +32,11 @@
 				<a href="/houses" class="ui basic icon button">
 					<i class="brown home icon"></i>
 				</a>
+				<% if(contact.gender){ %>
 				<span class="ui basic icon button">
 					<i class="<%= contact.gender %> icon"></i>
 				</span>
+				<% } %>
 				<% if(contact.anniversaries.length){ %>
 				<div class="ui segments">
 					<div class="ui segment">
