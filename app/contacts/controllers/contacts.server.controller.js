@@ -85,7 +85,7 @@ exports.updateContactAPI = function(req, res){
 		delete req.body.relation_to_contact;
 		delete req.body.related_to_contact;
 	}
-	if (req.body.anniversaries[0].day == "" || req.body.anniversaries[0].day == null) {
+	if (!req.body.anniversaries || req.body.anniversaries[0].day == "" || req.body.anniversaries[0].day == null) {
 		delete req.body.anniversaries;
 	}
 	if(req.file){
