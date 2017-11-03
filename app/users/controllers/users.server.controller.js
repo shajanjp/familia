@@ -120,10 +120,8 @@ exports.authenticate = function(req, res, next){
 					algorithm: "HS256",
 					expiresIn: 604800
 				});
-
 				res.cookie('access_token', token, { maxAge: 7*24*60*60*100, httpOnly: true });
-				res.json({ access_token: token });
-
+				res.json({ 'access_token': token , 'redir': req.cookies.redir });
 			} else {
 				return res.status(401).json({ msg: 'Wrong password'});
 			}
@@ -131,17 +129,6 @@ exports.authenticate = function(req, res, next){
 	});
 };
 
-
-// Signs in user with the given username and password
-exports.authorize = function(req, res, next){
-	if (req.auth_user) {
-		next();
-	}
-	else{
-		res.status(403).json({ 'msg': 'Please login !' });
-	}
-
-}
 
 exports.hasRole = function(role) {
 	return function(req, res, next) {
@@ -152,6 +139,22 @@ exports.hasRole = function(role) {
 	}
 }
 
+// Checks for valid JWT
+exports.authorize = function(type) {
+	return function(req, res, next) {
+		if (req.auth_user) {
+			next();
+		}
+		else{
+			if(type == 'api')
+				res.status(403).json({ 'msg': 'Please login !' });
+			else if(type == 'ui'){
+				res.cookie('redir', req.originalUrl);
+				res.redirect('/signin');
+			}
+		}
+	}
+}
 
 // Signs Out user by clearing the cookies.
 exports.signout = function(req, res){

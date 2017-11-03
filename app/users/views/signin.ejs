@@ -36,7 +36,7 @@
 				data: $('#signin-form').serialize(),
 				success: function(data, status, xhr){
 					if(xhr.status == 200){
-						window.location = "/";
+						window.location = data.redir;
 					}
 				}
 			})
