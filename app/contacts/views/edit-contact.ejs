@@ -11,7 +11,7 @@
 	<% include ../../home/views/partials/navbar.ejs %>
 	<% if(contact){ %>
 	<section class="ui container">
-		<div class="ui grid">
+		<div class="ui stackable centered grid">
 			<div class="eight wide column" id="person_form">
 				<div class="ui segment">
 					<h1 class="ui header">Edit contact :  <%= contact.full_name %></h1>
@@ -125,9 +125,6 @@
 						<input type="submit" value="Update" id="update-contact" class="ui fluid primary button">
 					</form>
 				</div>
-			</div>
-			<div class="eight wide column">
-				<img src="/home/public/img/familia-logo-full.png" alt="" class="ui image">
 			</div>
 		</div>
 	</section>
