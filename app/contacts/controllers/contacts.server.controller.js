@@ -298,18 +298,18 @@ exports.removeHouseAPI = function(req, res){
 
 exports.anniversariesSchedule = function(req, res){
 	Contact.aggregate([ 
-		{ 
-			$project: { full_name:1, 'anniversaries.day': 1,'anniversaries.title': 1 }  
-		},
-		{  
-			$unwind: "$anniversaries"  
-		},
-		{   
-			$project: { full_name: 1, title: '$anniversaries.title', day: { $dateToString: { format: "%m-%d", date: "$anniversaries.day" } } } 
-		},
-		{
-			$sort: { day: 1 }  
-		}]).exec(function(err, anniversaries_list){
+	{ 
+		$project: { full_name:1, 'anniversaries.day': 1,'anniversaries.title': 1 }  
+	},
+	{  
+		$unwind: "$anniversaries"  
+	},
+	{   
+		$project: { full_name: 1, title: '$anniversaries.title', day: { $dateToString: { format: "%m-%d", date: "$anniversaries.day" } } } 
+	},
+	{
+		$sort: { day: 1 }  
+	}]).exec(function(err, anniversaries_list){
 		if(err)
 			res.json({ 'err': err });
 		else
@@ -329,7 +329,7 @@ exports.welcomeContactUI = function(req, res){
 }
 
 exports.viewMyProfileUI = function(req, res){
-Contact.findOne({ _id: req.auth_user.contact })
+	Contact.findOne({ _id: req.auth_user.contact })
 	.populate({ path: 'related_to_contact' })
 	.exec(function(err, contact){
 		if (err || contact==null || contact==undefined)
