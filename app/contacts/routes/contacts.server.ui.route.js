@@ -7,42 +7,40 @@ module.exports = function(app){
 	.get(contactsController.viewStatisticsUI);
 
 	app.route(domainRoot + '/me')
-	.get(contactsController.viewMyProfileUI);
+	.get(usersController.authorize('ui'), contactsController.viewMyProfileUI);
 	
 	app.route(domainRoot + '/contacts')
-	.get(contactsController.contactsDashboardUI);
+	.get(usersController.authorize('ui'), contactsController.contactsDashboardUI);
 
 	app.route(domainRoot + '/anniversaries')
-	.get(contactsController.anniversariesSchedule);
+	.get(usersController.authorize('ui'), contactsController.anniversariesSchedule);
 
 	app.route(domainRoot + '/houses')
 	.get(contactsController.housesDashboardUI);
 
 	app.route(domainRoot + '/houses/add')
-	.get(contactsController.addHouseUI);
+	.get(usersController.authorize('ui'), contactsController.addHouseUI);
 
 	app.route(domainRoot + '/houses/list')
-	.get(contactsController.listHousesUI);
+	.get(usersController.authorize('ui'), contactsController.listHousesUI);
 
 	app.route(domainRoot + '/houses/:house_id')
-	.get(contactsController.viewHouseUI);
+	.get(usersController.authorize('ui'), contactsController.viewHouseUI);
 	
 	app.route(domainRoot + '/contacts/list') 
-	.get(usersController.authorize, contactsController.listContactUI);
+	.get(usersController.authorize('ui'), contactsController.listContactUI);
 
 	app.route(domainRoot + '/contacts/welcome') 
-	.get(usersController.authorize, contactsController.welcomeContactUI);
+	.get(usersController.authorize('ui'), contactsController.welcomeContactUI);
 
 	app.route(domainRoot + '/contacts/add')
-	.get(contactsController.addContactUI);
+	.get(usersController.authorize('ui'), contactsController.addContactUI);
 
 	app.route(domainRoot + '/contacts/:contact_id')
-	.get(contactsController.viewContactUI)
-	.put(contactsController.home)
-	.delete(contactsController.home);
+	.get(usersController.authorize('ui'), contactsController.viewContactUI);
 
 	app.route(domainRoot + '/contacts/:contact_id/edit')
-	.get(contactsController.editContactUI);
+	.get(usersController.authorize('ui'), contactsController.editContactUI);
 
 	app.route(domainRoot + '/contacts/:contact_id/delete')
 	.get(contactsController.home);
