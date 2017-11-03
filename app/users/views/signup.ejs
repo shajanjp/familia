@@ -16,15 +16,24 @@
 					<form action="/api/signup" method="POST" class="ui form" id="user-form">
 						<div class="field">
 							<label for="email">Email</label>
-							<input type="text" name="email" placeholder="johndoe@gmail.com">
+							<div class="ui left icon input">
+								<input type="text" name="email" placeholder="johndoe@gmail.com">
+								<i class="at icon"></i>
+							</div>
 						</div>
 						<div class="field">
 							<label for="username">Username</label>
-							<input type="text" name="username" placeholder="johnd">
+							<div class="ui left icon input">
+								<input type="text" name="username" placeholder="johnd">
+								<i class="user icon"></i>
+							</div>
 						</div>
 						<div class="field">
-							<label for="username">Password</label>
-							<input type="password" name="password" placeholder="Password">
+							<label for="password">Password</label>
+							<div class="ui left icon input">
+								<input type="password" name="password" placeholder="Password">
+								<i class="lock icon"></i>
+							</div>
 						</div>
 						<input type="submit" value="Sign Up" class="ui basic green button" id="add-user">
 					</form>

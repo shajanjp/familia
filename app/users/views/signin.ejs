@@ -15,11 +15,17 @@
 				<form action="/api/signin" method="POST" class="ui form" id="signin-form">
 					<div class="field">
 						<label for="title">Username</label>
-						<input type="text" name="username" placeholder="Username">
+						<div class="ui left icon input">
+							<input type="text" name="username" placeholder="Username">
+							<i class="user icon"></i>
+						</div>
 					</div>
 					<div class="field">
 						<label for="title">Password</label>
+						<div class="ui left icon input">
 						<input type="password" name="password" placeholder="Password">
+						<i class="lock icon"></i>
+						</div>
 					</div>
 					<input type="submit" value="Sign In" class="ui basic primary button" id="user-signin">
 				</form>
