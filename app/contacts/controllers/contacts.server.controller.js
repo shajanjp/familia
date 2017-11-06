@@ -333,7 +333,7 @@ exports.viewMyProfileUI = function(req, res){
 	.populate({ path: 'related_to_contact' })
 	.exec(function(err, contact){
 		if (err || contact==null || contact==undefined)
-			res.status(401).json(err);
+			res.redirect('/contacts/welcome');
 		else{
 			Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
 				if (err || related_contacts==null || related_contacts==undefined)
