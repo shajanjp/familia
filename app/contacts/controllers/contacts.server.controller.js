@@ -5,14 +5,15 @@ var moment = require('moment');
 var gm = require('gm').subClass({imageMagick: true});
 var fs = require('fs');
 
+
 exports.contactById = function(req, res, next, contact_id){
-	Contact.findOne({ _id: contact_id }, function(err, contact){
-		if (err || contact===null || contact===undefined)
-			res.status(404).json({ 'msg':'Invalid Contact !' });
-		else {
-			req.contact_id = contact._id;
-			next();
-		}
+	Contact.findOne({ _id: contact_id })
+	.then((contact) => {
+			res.locals.contact_id = contact._id;
+			return Promise.resolve(next());
+	})
+	.catch((err) => {
+			return res.status(404).json({ 'msg':'Invalid Contact !' });
 	});
 }
 
