@@ -122,10 +122,10 @@ exports.listContactAPI = function(req, res){
 	Contact.find({})
 	.populate({ path: 'related_to_contact', select: 'full_name _id' })
 	.exec()
-	.then(function(contact_list){
+	.then((contact_list) => {
 		res.json(contact_list)
 	})
-	.catch(function(err){
+	.catch((err) => {
 		res.status(401).json({ err: err });
 	});
 }
@@ -156,39 +156,41 @@ exports.fetchContactAPI = function(req, res){
 
 exports.viewContactUI = function(req, res){
 	Contact.findOne({ _id: req.contact_id })
-	.populate({ path: 'related_to_contact' })
-	.exec(function(err, contact){
+	.populate({ path: 'related_to_contact' }).exec()
+	.then((contact) => {
+		Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
+			if (err || related_contacts==null || related_contacts==undefined)
+				res.status(401).json({ 'err': err });
+			else{
+				res.render('contacts/views/view-contact', { contact: contact, related_contacts: related_contacts, moment:moment });
+			}
+		});
+	})
+	.catch((err) => {
 		if (err || contact==null || contact==undefined)
-			res.status(401).json(err);
-		else{
-			Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
-				if (err || related_contacts==null || related_contacts==undefined)
-					res.status(401).json({ 'err': err });
-				else{
-					res.render('contacts/views/view-contact', { contact: contact, related_contacts: related_contacts, moment:moment });
-				}
-			});
-		}
+			res.status(401).json({ 'err': err });
 	});
 }
 
 exports.viewContactAPI = function(req, res){
-	Contact.findOne({ _id: req.contact_id }, function(err, contact){
+	Contact.findOne({ _id: req.contact_id }).exec()
+	.then((contact) => {
+		res.json(contact);
+	})
+	.catch((err) => {
 		if (err || contact==null || contact==undefined)
 			res.status(401).json({ 'err': err });
-		else{
-			res.json(contact);
-		}
-	});
+	})
 }
 
 exports.editContactUI = function(req, res){
-	Contact.findOne({ _id: req.contact_id }, function(err, contact){
+	Contact.findOne({ _id: req.contact_id }).exec()
+	.then((contact) => {
+			res.render('contacts/views/edit-contact', { contact: contact, moment: moment });
+	})
+	.catch((err) => {
 		if (err || contact==null || contact==undefined)
 			res.status(401).json({ 'err': err });
-		else{
-			res.render('contacts/views/edit-contact', { contact: contact, moment: moment });
-		}
 	});
 }
 
