@@ -88,9 +88,9 @@ exports.updateContactAPI = function(req, res){
 		delete req.body.anniversaries;
 	}
 	if(req.file){
-		req.body.avatar = req.contact_id + '-avatar.jpg';
+		req.body.avatar = res.locals.contact_id + '-avatar.jpg';
 	}
-	Contact.findOneAndUpdate({ _id: req.contact_id }, req.body, { safe: true, upsert: true }, function(err, doc){
+	Contact.findOneAndUpdate({ _id: res.locals.contact_id }, req.body, { safe: true, upsert: true }, function(err, doc){
 		if (err) {
 			console.log(err);
 			res.status(500).json({ 'success': false, 'msg': 'Error in updating !' });
@@ -100,7 +100,7 @@ exports.updateContactAPI = function(req, res){
 				gm(req.file.path)
 				.resize(200, 200)
 				.quality(90)
-				.write('app/contacts/public/uploads/avatars/' + req.contact_id + '-avatar.jpg', function (err) {
+				.write('app/contacts/public/uploads/avatars/' + res.locals.contact_id + '-avatar.jpg', function (err) {
 					if (err){
 						res.status(500).json({ 'success': false, 'msg': 'Error in updating !' });
 					}
@@ -121,7 +121,7 @@ exports.listContactAPI = function(req, res){
 	Contact.find({})
 	.populate({ path: 'related_to_contact', select: 'full_name _id' })
 	.then((contact_list) => {
-		res.json(contact_list)
+		res.json(contact_list);
 	})
 	.catch((err) => {
 		res.status(401).json({ err: err });
@@ -153,7 +153,7 @@ exports.fetchContactAPI = function(req, res){
 }
 
 exports.viewContactUI = function(req, res){
-	Contact.findOne({ _id: req.contact_id })
+	Contact.findOne({ _id: res.locals.contact_id })
 	.populate({ path: 'related_to_contact' })
 	.then((contact) => {
 		Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
@@ -171,7 +171,7 @@ exports.viewContactUI = function(req, res){
 }
 
 exports.viewContactAPI = function(req, res){
-	Contact.findOne({ _id: req.contact_id })
+	Contact.findOne({ _id: res.locals.contact_id })
 	.then((contact) => {
 		res.json(contact);
 	})
@@ -182,7 +182,7 @@ exports.viewContactAPI = function(req, res){
 }
 
 exports.editContactUI = function(req, res){
-	Contact.findOne({ _id: req.contact_id })
+	Contact.findOne({ _id: res.locals.contact_id })
 	.then((contact) => {
 		res.render('contacts/views/edit-contact', { contact: contact, moment: moment });
 	})
@@ -285,12 +285,12 @@ exports.viewStatisticsUI = function(req, res){
 }
 
 exports.removeHouseAPI = function(req, res){
-	House.remove({ _id: req.house_id }, function(err){
-		if (err)
-			res.json({'err': err});
-		else{
-			res.json({ 'msg': 'House Removed !', 'success': true });
-		}
+	House.remove({ _id: req.house_id })
+	.then(() => {
+		res.json({ 'msg': 'House Removed !', 'success': true });
+	})
+	.catch((err) => {
+		res.json({'err': err});
 	});
 }
 
@@ -318,18 +318,17 @@ exports.anniversariesSchedule = function(req, res){
 }
 
 exports.welcomeContactUI = function(req, res){
-	Contact.findOne({ _id: req.auth_user.contact }, function(err, contact){
-		if (err || contact==null || contact==undefined){
-			res.render('contacts/views/welcome-contact', { contact: {} });
-		}
-		else{
-			res.render('contacts/views/welcome-contact', { contact: contact });
-		}
+	Contact.findOne({ _id: res.locals.auth_user.contact })
+	.then((contact) => {
+		res.render('contacts/views/welcome-contact', { contact: contact });
+	})
+	.catch((err) => {
+		res.render('contacts/views/welcome-contact', { contact: {} });
 	});
 }
 
 exports.viewMyProfileUI = function(req, res){
-	Contact.findOne({ _id: req.auth_user.contact })
+	Contact.findOne({ _id: res.locals.auth_user.contact })
 	.populate({ path: 'related_to_contact' })
 	.exec(function(err, contact){
 		if (err || contact==null || contact==undefined)

@@ -34,11 +34,11 @@ module.exports = function(){
 					app.locals.auth_user = null;
 					next();
 				} else {
-					app.locals.auth_user = req.auth_user = {};
-					app.locals.auth_user.username = req.auth_user.username = decoded.username;
-					app.locals.auth_user._id = req.auth_user._id = decoded.user_id;
-					app.locals.auth_user.role = req.auth_user.role = decoded.role;
-					app.locals.auth_user.contact = req.auth_user.contact = decoded.contact;
+					app.locals.auth_user = res.locals.auth_user = {};
+					app.locals.auth_user.username = res.locals.auth_user.username = decoded.username;
+					app.locals.auth_user._id = res.locals.auth_user._id = decoded.user_id;
+					app.locals.auth_user.role = res.locals.auth_user.role = decoded.role;
+					app.locals.auth_user.contact = res.locals.auth_user.contact = decoded.contact;
 					next();
 				}
 			});

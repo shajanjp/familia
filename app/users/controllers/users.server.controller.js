@@ -11,7 +11,7 @@ exports.home = function(req, res){
 
 // Views auth users profile detials
 exports.meViewAPI = function(req, res){
-	User.findOne({ _id: req.auth_user._id }, { password: 0 }, function(err, user){
+	User.findOne({ _id: res.locals.auth_user._id }, { password: 0 }, function(err, user){
 		if (err || user==null || user==undefined)
 			res.status(401).json(err);
 		else{
@@ -132,7 +132,7 @@ exports.authenticate = function(req, res, next){
 
 exports.hasRole = function(role) {
 	return function(req, res, next) {
-		if (role !== req.auth_user.role) 
+		if (role !== res.locals.auth_user.role) 
 			res.status(403).json({ 'msg': 'You dont have privilages to access this.' });
 		else 
 			next();
@@ -142,7 +142,7 @@ exports.hasRole = function(role) {
 // Checks for valid JWT
 exports.authorize = function(type) {
 	return function(req, res, next) {
-		if (req.auth_user) {
+		if (res.locals.auth_user) {
 			next();
 		}
 		else{
