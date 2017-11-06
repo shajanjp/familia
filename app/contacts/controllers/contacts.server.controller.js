@@ -21,7 +21,7 @@ exports.houseById = function(req, res, next, house_id){
 		if(err || house===null || house===undefined)
 			res.status(404).json({ 'msg':'Invalid House !' });
 		else{
-			req.house_id = house._id;
+			res.locals.house_id = house._id;
 			next();
 		}
 	});
@@ -252,7 +252,7 @@ exports.listHousesUI = function(req, res){
 } 
 
 exports.viewHouseUI = function(req, res){
-	House.findOne({ _id: req.house_id })
+	House.findOne({ _id: res.locals.house_id })
 	.populate({ path: 'contacts', select: 'full_name avatar relation_to_contact _id' })
 	.populate({ path: 'head_contact', select: 'full_name avatar _id' })
 	
@@ -285,7 +285,7 @@ exports.viewStatisticsUI = function(req, res){
 }
 
 exports.removeHouseAPI = function(req, res){
-	House.remove({ _id: req.house_id })
+	House.remove({ _id: res.locals.house_id })
 	.then(() => {
 		res.json({ 'msg': 'House Removed !', 'success': true });
 	})
