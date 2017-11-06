@@ -42,7 +42,10 @@
 				data: $('#signin-form').serialize(),
 				success: function(data, status, xhr){
 					if(xhr.status == 200){
-						window.location = data.redir;
+						if(data.redir != undefined)
+							window.location = data.redir;
+						else
+							window.location = '/';
 					}
 				}
 			})
