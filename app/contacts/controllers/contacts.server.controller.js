@@ -7,9 +7,9 @@ var fs = require('fs');
 
 exports.contactById = function(req, res, next, contact_id){
 	Contact.findOne({ _id: contact_id }, function(err, contact){
-		if(err || contact===null || contact===undefined)
+		if (err || contact===null || contact===undefined)
 			res.status(404).json({ 'msg':'Invalid Contact !' });
-		else{
+		else {
 			req.contact_id = contact._id;
 			next();
 		}
@@ -27,8 +27,7 @@ exports.houseById = function(req, res, next, house_id){
 	});
 }
 
-exports.listContactUI = function(req, res){
-	Contact.find({})
+exports.listContactUI = function(req, res){Contact.find({})
 	.populate({ path: 'related_to_contact', select: 'full_name _id' })
 	.exec(function(err, contacts_list){
 		if (err || contacts_list==null || contacts_list==undefined)
@@ -121,7 +120,6 @@ exports.updateContactAPI = function(req, res){
 exports.listContactAPI = function(req, res){
 	Contact.find({})
 	.populate({ path: 'related_to_contact', select: 'full_name _id' })
-	.exec()
 	.then((contact_list) => {
 		res.json(contact_list)
 	})
@@ -156,7 +154,7 @@ exports.fetchContactAPI = function(req, res){
 
 exports.viewContactUI = function(req, res){
 	Contact.findOne({ _id: req.contact_id })
-	.populate({ path: 'related_to_contact' }).exec()
+	.populate({ path: 'related_to_contact' })
 	.then((contact) => {
 		Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
 			if (err || related_contacts==null || related_contacts==undefined)
@@ -173,7 +171,7 @@ exports.viewContactUI = function(req, res){
 }
 
 exports.viewContactAPI = function(req, res){
-	Contact.findOne({ _id: req.contact_id }).exec()
+	Contact.findOne({ _id: req.contact_id })
 	.then((contact) => {
 		res.json(contact);
 	})
@@ -184,9 +182,9 @@ exports.viewContactAPI = function(req, res){
 }
 
 exports.editContactUI = function(req, res){
-	Contact.findOne({ _id: req.contact_id }).exec()
+	Contact.findOne({ _id: req.contact_id })
 	.then((contact) => {
-			res.render('contacts/views/edit-contact', { contact: contact, moment: moment });
+		res.render('contacts/views/edit-contact', { contact: contact, moment: moment });
 	})
 	.catch((err) => {
 		if (err || contact==null || contact==undefined)
@@ -227,31 +225,29 @@ exports.housesDashboardUI = function(req, res){
 	res.render('contacts/views/add-house');
 }
 
-
 exports.addHouseUI = function(req, res){
 	res.render('contacts/views/add-house');
 }
 
 exports.createHouseAPI = function(req, res){
-	console.log(req.body);
 	var house = new House(req.body);
-	house.save(function(err, house){
-		if(err)
-			res.status(500).json({ 'err': err });
-		else
-			res.status(201).json({ 'msg': 'House added !', house_id: house._id });
+	house.save()
+	.then((house) => {
+		res.status(201).json({ 'msg': 'House added !', house_id: house._id });
+	})
+	.catch((err) => {
+		res.status(500).json({ 'err': err });
 	});
 }
 
 exports.listHousesUI = function(req, res){
 	House.find({})
-	.populate({ path: 'head_contact', select: 'full_name avatar _id' }) 
-	.exec(function(err, house_list){
-		if (err || house_list==null || house_list==undefined)
-			res.status(401).json({ 'err': err });
-		else{
-			res.render('contacts/views/list-houses', { house_list: house_list });
-		}
+	.populate({ path: 'head_contact', select: 'full_name avatar _id' })
+	.then((house_list) => {
+		res.render('contacts/views/list-houses', { house_list: house_list });
+	})
+	.catch((err) => {
+		res.status(401).json({ 'err': err });
 	});
 } 
 
@@ -259,12 +255,12 @@ exports.viewHouseUI = function(req, res){
 	House.findOne({ _id: req.house_id })
 	.populate({ path: 'contacts', select: 'full_name avatar relation_to_contact _id' })
 	.populate({ path: 'head_contact', select: 'full_name avatar _id' })
-	.exec(function(err, house){
-		if (err || house==null || house==undefined)
-			res.status(401).json({ 'err': err });
-		else{
-			res.render('contacts/views/view-house', { house: house });
-		}
+	
+	.then((house) => {
+		res.render('contacts/views/view-house', { house: house });
+	})
+	.catch((err) => {
+		res.status(401).json({ 'err': err });
 	});
 }
 
@@ -311,11 +307,13 @@ exports.anniversariesSchedule = function(req, res){
 	},
 	{
 		$sort: { day: 1 }  
-	}]).exec(function(err, anniversaries_list){
+	}])
+	.then((anniversaries_list) => {
+		res.render('contacts/views/upcoming_anniversaries', { anniversaries_list: anniversaries_list, moment: moment });
+	})
+	.catch((err) => {
 		if(err)
 			res.json({ 'err': err });
-		else
-			res.render('contacts/views/upcoming_anniversaries', { anniversaries_list: anniversaries_list, moment: moment });
 	});
 }
 
