@@ -28,14 +28,14 @@ exports.houseById = function(req, res, next, house_id){
 	});
 }
 
-exports.listContactUI = function(req, res){Contact.find({})
+exports.listContactUI = function(req, res){
+	Contact.find({})
 	.populate({ path: 'related_to_contact', select: 'full_name _id' })
-	.exec(function(err, contacts_list){
-		if (err || contacts_list==null || contacts_list==undefined)
-			res.status(401).json(err);
-		else{
-			res.render('contacts/views/list-contacts', { contacts_list: contacts_list, moment: moment });
-		}
+	.then((contacts_list) => {
+		res.render('contacts/views/list-contacts', { contacts_list: contacts_list, moment: moment });
+	})
+	.catch((err) => {
+		res.status(401).json(err);
 	});
 }
 
@@ -194,13 +194,13 @@ exports.editContactUI = function(req, res){
 }
 
 exports.contactsDashboardUI = function(req, res){
-	Contact.find({}, function(err, contacts_list){
-		if (err || contacts_list==null || contacts_list==undefined)
-			res.status(401).json({ 'err': err });
-		else{
-			res.render('contacts/views/contacts-dashboard', { contacts_list: contacts_list });
-		}
-	}).limit(6);
+	Contact.find({})
+	.then((contacts_list) => {
+		res.render('contacts/views/contacts-dashboard', { contacts_list: contacts_list });
+	})
+	.catch((err) => {
+		res.status(401).json({ 'err': err });
+	});
 }
 
 exports.home = function(req, res){
@@ -255,8 +255,7 @@ exports.listHousesUI = function(req, res){
 exports.viewHouseUI = function(req, res){
 	House.findOne({ _id: res.locals.house_id })
 	.populate({ path: 'contacts', select: 'full_name avatar relation_to_contact _id' })
-	.populate({ path: 'head_contact', select: 'full_name avatar _id' })
-	
+	.populate({ path: 'head_contact', select: 'full_name avatar _id' })	
 	.then((house) => {
 		res.render('contacts/views/view-house', { house: house });
 	})
@@ -280,8 +279,12 @@ exports.viewStatisticsUI = function(req, res){
 			female: {$sum: "$female"},
 			total: {$sum: 1}
 		}
-	}], function(err, result){
+	}])
+	.then((result) => {
 		res.json(result);
+	})
+	.catch((err) => {
+		res.json({ 'err': err });
 	});
 }
 
@@ -331,17 +334,15 @@ exports.welcomeContactUI = function(req, res){
 exports.viewMyProfileUI = function(req, res){
 	Contact.findOne({ _id: res.locals.auth_user.contact })
 	.populate({ path: 'related_to_contact' })
-	.exec(function(err, contact){
-		if (err || contact==null || contact==undefined)
-			res.redirect('/contacts/welcome');
-		else{
-			Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
-				if (err || related_contacts==null || related_contacts==undefined)
-					res.status(401).json({ 'err': err });
-				else{
-					res.render('contacts/views/view-contact', { contact: contact, related_contacts: related_contacts, moment:moment });
-				}
-			});
-		}
-	});
+	.then((contact) => {
+		Contact.find({ related_to_contact: contact._id }, function(err, related_contacts){
+			if (err || related_contacts==null || related_contacts==undefined)
+				res.status(401).json({ 'err': err });
+			else
+				res.render('contacts/views/view-contact', { contact: contact, related_contacts: related_contacts, moment:moment });
+		})
+	})
+	.catch((err) => {
+		res.redirect('/contacts/welcome');
+	})
 }
