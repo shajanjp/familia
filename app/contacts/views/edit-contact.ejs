@@ -157,6 +157,16 @@
 			})
 		});
 
+		$('.remove-anniversary').on('click', function(e){
+			var anni_num = 0;
+			$(this).closest('.anniversary').remove();
+			$('#anniversaries-list .anniversary').each(function(index){
+				$(this).find('[data-handle="anni-title"]').attr('name', "anniversaries[" + anni_num + "][title]");
+				$(this).find('[data-handle="anni-day"]').attr('name', "anniversaries[" + anni_num + "][day]");
+				anni_num++;
+			})
+		});
+
 		$('#update-contact').on('click', function(e){
 			e.preventDefault();
 			$.ajax({
