@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><% if(house.title != ""){ %><%= house.title %><% }else{ %><%= house.head_contact.full_name %>'s House <% } %> - Familia</title>
+	<title><% if(house.title != ""){ %><%= house.title %><% }else{ %><%= house.head_contact.full_name %>'s House <% } %> - <%= home.title %></title>
 	<meta name="description" content="<%= contacts.metaDescription %>">
 	<meta name="keywords" content="<%=  contacts.metaKeywords %>">
 	<meta name="author" content="guyswhocode">
