@@ -41,54 +41,33 @@
 							</label>
 							<input type="file" id="file" name="avatar" style="display:none">
 						</div>
+
 						<div id="anniversaries-list">
 							<% if(contact.anniversaries.length>0){ %>
 							<% contact.anniversaries.forEach(function(ani){ %>
-							<div class="two fields anniversary">
-								<div class="field">
-									<label for="anniversaries[0][title]">Type</label>
-									<select name="anniversaries[0][title]" class="ui fluid search dropdown select-title" data-handle="anni-title">
-										<% if(ani.title){ %>
-										<option value="<%= ani.title %>"><%= ani.title.charAt(0).toUpperCase() + ani.title.slice(1); %></option>
-										<% } %>
-										<option value="birth">Birth</option>
-										<option value="wedding">Wedding</option>
-										<option value="feast">Feast</option>
-										<option value="death">Death</option>
-									</select>
-								</div>
-								<div class="field">
-									<label for="anniversaries[0][day]">Date</label>
-									<div class="ui calendar select-day">
-										<div class="ui input">
-											<input type="text" data-handle="anni-day" name="anniversaries[0][day]" placeholder="YYYY-MM-DD" autocomplete="off" value="<%= moment(ani.day).format("YYYY-MM-DD"); %>">
-										</div>
+							<div class="field anniversary">
+								<div class="ui calendar select-day">
+									<div class="ui action input">
+										<input placeholder="YYYY-MM-DD" type="text" value="<%= moment(ani.day).format("YYYY-MM-DD"); %>" class="select-day" data-handle="anni-day">
+										<select class="ui compact selection dropdown select-title" data-handle="anni-title">
+											<% if(ani.title){ %>
+											<option value="<%= ani.title %>"><%= ani.title.charAt(0).toUpperCase() + ani.title.slice(1); %></option>
+											<% } %>
+											<option value="wedding">Wedding</option>
+											<option value="birth">Birth</option>
+											<option value="feast">Feast</option>
+											<option value="death">Death</option>
+										</select>
+										<div class="ui icon button remove-anniversary"><i class="red trash icon"></i></div>
 									</div>
 								</div>
 							</div>
-							<% });}else{ %>
-							<div class="two fields anniversary">
-								<div class="field">
-									<label for="anniversaries[0][title]">Type</label>
-									<select name="anniversaries[0][title]" class="ui fluid search dropdown select-title" data-handle="anni-title">
-										<option value="birth">Birth</option>
-										<option value="wedding">Wedding</option>
-										<option value="feast">Feast</option>
-										<option value="death">Death</option>
-									</select>
-								</div>
-								<div class="field">
-									<label for="anniversaries[0][day]">Date</label>
-									<div class="ui calendar select-day">
-										<div class="ui input">
-											<input type="text" name="anniversaries[0][day]" placeholder="YYYY-MM-DD" autocomplete="off" data-handle="anni-day">
-										</div>
-									</div>
-								</div>
-							</div>
-							<% } %>
+							<% });} %>
 						</div>
+						
+						<br />
 						<span class="ui icon button" id="add-anniversary"><i class="green add icon"></i></span>
+
 						<div class="two fields">
 							<div class="field">
 								<label for="related_to_contact">Person</label>
