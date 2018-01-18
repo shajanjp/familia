@@ -29,7 +29,7 @@ exports.houseById = function(req, res, next, house_id){
 }
 
 exports.listContactUI = function(req, res){
-	Contact.find({})
+	Contact.find({ 'owners': res.locals.auth_user._id })
 	.populate({ path: 'related_to_contact', select: 'full_name _id' })
 	.then((contacts_list) => {
 		res.render('contacts/views/list-contacts', { contacts_list: contacts_list, moment: moment });
