@@ -14,6 +14,7 @@ var contactSchema = new Schema({
 	phone: String,
 	email: String,
 	avatar: String,
+	owners: [{ type: Schema.ObjectId, ref: 'user' }],
 	is_dead: Boolean
 });
 
