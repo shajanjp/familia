@@ -200,7 +200,7 @@ exports.editContactUI = function(req, res){
 }
 
 exports.contactsDashboardUI = function(req, res){
-	Contact.find({})
+	Contact.find({owners: res.locals.auth_user._id})
 	.then((contacts_list) => {
 		res.render('contacts/views/contacts-dashboard', { contacts_list: contacts_list });
 	})
