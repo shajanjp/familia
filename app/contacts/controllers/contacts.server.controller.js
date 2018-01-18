@@ -48,10 +48,16 @@ exports.createContactAPI = function(req, res){
 		delete req.body.relation_to_contact;
 		delete req.body.related_to_contact;
 	}
-	if (req.body.anniversaries[0].day == "" || req.body.anniversaries[0].day == null) {
-		delete req.body.anniversaries;
+	if(req.body.anniversaries){
+		if (req.body.anniversaries[0].day == "" || req.body.anniversaries[0].day == null) {
+			delete req.body.anniversaries;
+		}
 	}
-	var contact = new Contact(req.body);
+	
+	let contact = new Contact(req.body);
+	contact.owners = [];
+	contact.owners.push(res.locals.auth_user._id);
+
 	if(req.file){
 		contact.avatar = contact._id + '-avatar.jpg';
 	}
