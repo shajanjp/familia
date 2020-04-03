@@ -1,14 +1,15 @@
-var config = require('./env/'+ process.env.NODE_ENV +'.js');
-var bluebird = require('bluebird');
+const config = require('./env/'+ process.env.NODE_ENV +'.js');
+const bluebird = require('bluebird');
 const mongoose = require('mongoose');
 mongoose.Promise = bluebird;
 
-var activeModules = require('./modules.js').activeModules;
-var moduleModels;
+const activeModules = require('./modules.js').activeModules;
+let moduleModels;
 
 module.exports = function(){
-	var db = mongoose.connect(config.db, {
-		useMongoClient: true
+	var db = mongoose.connect(config.db, { 
+		useNewUrlParser: true,
+		useUnifiedTopology: true 
 	});
 	console.log("registering mongoDB schemas...");
 	activeModules.forEach(function(module) {
