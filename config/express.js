@@ -1,15 +1,15 @@
-var config = require('./env/'+ process.env.NODE_ENV +'.js');
-var express = require('express');
-var morgan = require('morgan');
-var compress = require('compression');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var activeModules = require('./modules.js').activeModules;
-var helmet = require('helmet');
-var jwt = require('jsonwebtoken');
+const config = require('./env/'+ process.env.NODE_ENV +'.js');
+const express = require('express');
+const morgan = require('morgan');
+const compress = require('compression');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const activeModules = require('./modules.js').activeModules;
+const helmet = require('helmet');
+const jwt = require('jsonwebtoken');
 
 module.exports = function(){
-	var app = express();
+	const app = express();
 	if(process.env.NODE_ENV === 'development'){
 		app.use(morgan('dev'));
 	}else if(process.env.NODE_ENV === 'production'){

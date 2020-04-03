@@ -1,7 +1,7 @@
-var contactsController = require('../controllers/contacts.server.controller.js');
-var multer = require('multer');
-var upload = multer({ dest: 'uploads/' });
-var domainRoot = '/api';
+const contactsController = require('../controllers/contacts.server.controller.js');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const domainRoot = '/api';
 
 module.exports = function(app){
 	app.route(domainRoot + '/contacts')

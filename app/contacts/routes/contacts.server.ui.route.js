@@ -1,6 +1,6 @@
-var contactsController = require('../controllers/contacts.server.controller.js');
-var usersController = require('../../users/controllers/users.server.controller.js');
-var domainRoot = '';
+const contactsController = require('../controllers/contacts.server.controller.js');
+const usersController = require('../../users/controllers/users.server.controller.js');
+const domainRoot = '';
 
 module.exports = function(app){
 	app.route('/dashboard')

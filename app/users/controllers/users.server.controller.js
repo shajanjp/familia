@@ -1,9 +1,9 @@
-var User = require('mongoose').model('user');
-var Contact = require('mongoose').model('contact');
-var userValidation = require('../lib/users.validation.js');
-var config = require('../../../config/env/' + process.env.NODE_ENV + '.js');
-var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
+const User = require('mongoose').model('user');
+const Contact = require('mongoose').model('contact');
+const userValidation = require('../lib/users.validation.js');
+const config = require('../../../config/env/' + process.env.NODE_ENV + '.js');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.home = function(req, res){
 	res.render('users/views/home');

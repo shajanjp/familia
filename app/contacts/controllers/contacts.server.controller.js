@@ -1,9 +1,9 @@
-var Contact = require('mongoose').model('contact');
-var House = require('mongoose').model('house');
-var contactValidation = require('../lib/contacts.validation.js');
-var moment = require('moment');
-var gm = require('gm').subClass({imageMagick: true});
-var fs = require('fs');
+const Contact = require('mongoose').model('contact');
+const House = require('mongoose').model('house');
+const contactValidation = require('../lib/contacts.validation.js');
+const moment = require('moment');
+const gm = require('gm').subClass({imageMagick: true});
+const fs = require('fs');
 
 
 exports.contactById = function(req, res, next, contact_id){

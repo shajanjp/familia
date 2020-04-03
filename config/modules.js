@@ -1,4 +1,4 @@
-var activeModules = [
+const activeModules = [
 {
 	"name": "home",
 	"title": "BlackFire",

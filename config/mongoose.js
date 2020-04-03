@@ -7,7 +7,7 @@ const activeModules = require('./modules.js').activeModules;
 let moduleModels;
 
 module.exports = function(){
-	var db = mongoose.connect(config.db, { 
+	const db = mongoose.connect(config.db, { 
 		useNewUrlParser: true,
 		useUnifiedTopology: true 
 	});

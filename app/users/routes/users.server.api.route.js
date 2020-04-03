@@ -1,5 +1,5 @@
-var usersController = require('../controllers/users.server.controller.js');
-var domainRoot = '/api';
+const usersController = require('../controllers/users.server.controller.js');
+const domainRoot = '/api';
 
 
 module.exports = function(app){
