@@ -140,13 +140,13 @@ case "$1" in
 	<meta name=\"description\" content=\"<%= "$moduleNamePlural".metaDescription %>\">
 	<meta name=\"keywords\" content=\"<%=  "$moduleNamePlural".metaKeywords %>\">
 	<meta name=\"author\" content=\"guyswhocode\">
-	<% include ../../home/views/partials/styles.ejs %>
+	<%- include('../../home/views/partials/styles.ejs') %>
 	<link rel=\"stylesheet\" href=\"/"$moduleNamePlural"/public/css/"$moduleNamePlural".css\">
 	</head>
 	<body>
 	<h1><%= "$moduleNamePlural".title %></h1>
 	<% include ../../home/views/partials/footer.ejs %>
-	<% include ../../home/views/partials/scripts.ejs %>	
+	<%- include('../../home/views/partials/scripts.ejs') %>	
 	</body>
 	</html>" > app/$moduleNamePlural/views/add.ejs;
 
