@@ -5,15 +5,15 @@
 	<meta name="description" content="<%= home.metaDescription %>">
 	<meta name="keywords" content="<%=  home.metaKeywords %>">
 	<meta name="author" content="guyswhocode">
-	<% include ../../home/views/partials/styles.ejs %>
+	<%- include('../../home/views/partials/styles.ejs') %>
 	<link rel="stylesheet" href="/contacts/public/css/home.css">
 </head>
 <body>
-	<% include ../../home/views/partials/navbar.ejs %>
+	<%- include('../../home/views/partials/navbar.ejs') %>
 	<div class="ui container">
 		<h1 class="ui center aligned header"><%= home.title %></h1>
 	</div>
 	<% include ../../home/views/partials/footer.ejs %>
-	<% include ../../home/views/partials/scripts.ejs %>	
+	<%- include('../../home/views/partials/scripts.ejs') %>	
 </body>
 </html>

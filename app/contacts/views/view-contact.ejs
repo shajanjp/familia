@@ -5,11 +5,11 @@
 	<meta name="description" content="<%= contacts.metaDescription %>">
 	<meta name="keywords" content="<%=  contacts.metaKeywords %>">
 	<meta name="author" content="guyswhocode">
-	<% include ../../home/views/partials/styles.ejs %>
+	<%- include('../../home/views/partials/styles.ejs') %>
 	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
 </head>
 <body class="calm-bg">
-	<% include ../../home/views/partials/navbar.ejs %>
+	<%- include('../../home/views/partials/navbar.ejs') %>
 	<% if(contact){ %>
 	<div class="ui text container contact">
 		<div class="ui stackable grid">
@@ -114,7 +114,7 @@
 	</div>
 	<% } %>
 	<% include ../../home/views/partials/footer.ejs %>
-	<% include ../../home/views/partials/scripts.ejs %>	
+	<%- include('../../home/views/partials/scripts.ejs') %>	
 	<script src="/contacts/public/js/script.js"></script>
 	<script>
 		$('#root-relation').html(reverse_relarion($('#root-relation').data('root-relation')));

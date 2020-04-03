@@ -3,12 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title><%= contact.full_name %> | <%= home.title %></title>
-	<% include ../../home/views/partials/styles.ejs %>
+	<%- include('../../home/views/partials/styles.ejs') %>
 	<link rel="stylesheet" href="/home/public/css/calendar.min.css">
 	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
 </head>
 <body class="calm-bg">
-	<% include ../../home/views/partials/navbar.ejs %>
+	<%- include('../../home/views/partials/navbar.ejs') %>
 	<% if(contact){ %>
 	<section class="ui container">
 		<div class="ui stackable centered grid">
@@ -108,7 +108,7 @@
 		</div>
 	</section>
 	<% } %>
-	<% include ../../home/views/partials/scripts.ejs %>
+	<%- include('../../home/views/partials/scripts.ejs') %>
 	<script src="/home/public/js/calendar.min.js"></script>
 	<script>
 		var make_calendar = function(item){

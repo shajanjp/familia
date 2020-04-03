@@ -3,11 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Dashboard | <%= home.title %></title>
-	<% include ../../home/views/partials/styles.ejs %>
+	<%- include('../../home/views/partials/styles.ejs') %>
 	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
 </head>
 <body class="calm-bg">
-	<% include ../../home/views/partials/navbar.ejs %>
+	<%- include('../../home/views/partials/navbar.ejs') %>
 	<div class="ui container">
 		<header class="ui vertical center aligned segment" id="home-header">		
 			<div class="ui center aligned grid">
@@ -84,7 +84,7 @@
 		</div>
 	</div>
 	<% include ../../home/views/partials/footer.ejs %>
-	<% include ../../home/views/partials/scripts.ejs %>
+	<%- include('../../home/views/partials/scripts.ejs') %>
 	<script src="/home/public/js/Chart.bundle.min.js"></script>
 	<script>
 		const gender_graph = $('#gender-graph');

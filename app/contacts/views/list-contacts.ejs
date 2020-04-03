@@ -5,11 +5,11 @@
 	<meta name="description" content="<%= contacts.metaDescription %>">
 	<meta name="keywords" content="<%=  contacts.metaKeywords %>">
 	<meta name="author" content="guyswhocode">
-	<% include ../../home/views/partials/styles.ejs %>
+	<%- include('../../home/views/partials/styles.ejs') %>
 	<link rel="stylesheet" href="/contacts/public/css/contacts.css">
 </head>
 <body class="calm-bg">
-	<% include ../../home/views/partials/navbar.ejs %>
+	<%- include('../../home/views/partials/navbar.ejs') %>
 	<div class="ui container contacts-table">
 		<h1 class="ui yellow header"><%= contacts_list.length %> Contacts</h1>
 		<table class="ui table">
@@ -88,7 +88,7 @@
 		</div>
 	</div>
 
-	<% include ../../home/views/partials/scripts.ejs %>
+	<%- include('../../home/views/partials/scripts.ejs') %>
 	<script src="/contacts/public/js/script.js"></script>
 
 </body>
