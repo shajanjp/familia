@@ -355,3 +355,7 @@ exports.viewMyProfileUI = function(req, res){
 		res.redirect('/contacts/welcome');
 	})
 }
+
+exports.addContactNoAuth = (req, res) => {
+	res.render('contacts/views/add-contact-no-auth');
+}

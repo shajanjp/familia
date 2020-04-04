@@ -5,4 +5,7 @@ const usersController = require('../../users/controllers/users.server.controller
 module.exports = function(app){
 	app.route('/')
 	.get(usersController.authorize('ui'), contactsController.contactsDashboardUI);
+
+  app.route('/add-contact')
+  .get(contactsController.addContactNoAuth);
 }

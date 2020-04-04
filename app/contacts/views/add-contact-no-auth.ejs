@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Add Contact | <%= home.title %></title>
+  <%- include('../../home/views/partials/head.ejs') %>
+  <%- include('../../home/views/partials/styles.ejs') %>
+  <link rel="stylesheet" href="/home/public/css/calendar.min.css">
+  <link rel="stylesheet" href="/contacts/public/css/contacts.css">
+</head>
+<body class="calm-bg">
+
+  <div class="ui container">
+		<div class="ui stackable centered grid">
+			<div class="eight wide column">
+				<div class="ui segment">
+					<h1 class="ui header">Add Contact</h1>
+					<form action="/api/contacts" method="POST" enctype="multipart/form-data" class="ui form" id="add-contact-form">
+						
+            <div class="three fields">
+							<div class="field">
+								<label for="full_name">Full Name</label>
+								<input type="text" name="full_name" placeholder="John Doe">
+							</div>
+							<div class="field">
+								<label for="nick_name">Nick Name</label>
+								<input type="text" name="nick_name" placeholder="Johny">
+							</div>
+							<div class="field">
+								<label for="gender">Gender</label>
+								<select name="gender" id="select_gender" class="ui fluid dropdown">
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</select>
+							</div>
+						</div>
+
+             <div class="two fields">
+              <div class="field">
+                <label for="phone">Phone</label>
+                <div class="ui left icon input">
+                  <input type="text" name="phone" placeholder="9876543210">
+                  <i class="phone icon"></i>
+                </div>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <div class="ui left icon input">
+                  <input type="text" name="email" placeholder="name@example.com">
+                  <i class="at icon"></i>
+                </div>
+              </div>
+            </div>
+
+						<div id="anniversaries-list">
+							<div class="fields anniversary">
+								<div class="seven wide field">
+									<label>Type</label>
+									<select name="anniversaries[0][title]" class="ui fluid dropdown select-title" data-handle="anni-title">
+										<option value="birth">Birth</option>
+										<option value="wedding">Wedding</option>
+										<option value="feast">Feast</option>
+										<option value="death">Death</option>
+									</select>
+								</div>
+								<div class="seven wide field">
+									<label>Date</label>
+									<div class="ui calendar select-day">
+										<div class="ui left icon input">
+											<input type="text" name="anniversaries[0][day]" placeholder="YYYY-MM-DD" autocomplete="off" data-handle="anni-day">
+											<i class="calendar icon"></i>
+										</div>
+									</div>
+								</div>
+                <div class="two wide field">
+                  <label for="remove-date"> &nbsp</label>
+                  <span class="ui icon button remove-date"><i class="red trash icon"></i></span>
+                </div>
+              </div>
+            </div>
+
+						<span class="ui icon button" id="add-anniversary"><i class="green add icon"></i></span>
+           
+						<div class="two fields">
+							<div class="field">
+								<label for="related_to_contact">Person</label>
+								<select name="related_to_contact" id="select_person" class="ui search fluid dropdown">
+									<option value="none">None</option>
+								</select>
+							</div>
+							<div class="field">
+								<label for="reation">Relation</label>
+								<select name="relation_to_contact" id="select_relation" class="ui fluid search dropdown">
+									<option value="none">None</option>
+									<option value="child">Child</option>
+									<option value="parent">Parent</option>
+									<option value="sibling">Partner</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="field">
+							<input type="checkbox" name="is_dead" placeholder="">
+							<label for="is_dead">Is in heaven</label>
+						</div>
+
+						<input type="submit" value="Add Contact" id="add-contact" class="ui primary button">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%- include('../../home/views/partials/scripts.ejs') %>
+	<script src="/home/public/js/calendar.min.js"></script>
+	<script>
+		var make_calendar = function(item){
+			$(item).calendar({
+				monthFirst: false,
+				type:'date',
+				formatter: {
+					date: function (date, settings) {
+						if (!date) return '';
+						var day = date.getDate();
+						var month = date.getMonth() + 1;
+						var year = date.getFullYear();
+						return year + '-' + month + '-' + day;
+					}
+				}
+			});
+		};
+
+		$('.select-title').dropdown();
+		$('#select_relation').dropdown();
+		$('#select_gender').dropdown();
+
+		$('#select_person').dropdown({
+			fields: {
+				name: 'full_name',
+				value: '_id'
+			},
+			apiSettings: {
+				url: '/api/contacts/list?q={query}',
+			},
+			localSearch: false
+		});
+
+		make_calendar('.select-day');
+    
+    $('#add-contact-form').on('click', '.remove-date', (e) => {
+      $(e.target).closest('.anniversary').remove();
+    })
+
+		$('#add-anniversary').on('click', '', function(){
+			var anni_num = 0;
+			$('#anniversaries-list .anniversary:first').clone().appendTo('#anniversaries-list');
+			$('#anniversaries-list .anniversary:last .select-title, #anniversaries-list .anniversary:last .select-day').val('');
+			$('#anniversaries-list .anniversary:last .select-title').dropdown();
+			make_calendar('#anniversaries-list .anniversary:last .select-day');
+			$('#anniversaries-list .anniversary').each(function(index){
+				$(this).find('[data-handle="anni-title"]').attr('name', "anniversaries[" + anni_num + "][title]");
+				$(this).find('[data-handle="anni-day"]').attr('name', "anniversaries[" + anni_num + "][day]");
+				anni_num++;
+			})
+		});
+
+		$('#add-contact').on('click', function(e){
+			e.preventDefault();
+			$.ajax({
+				type: "POST",
+				url: '/api/contacts',
+				data: new FormData($('form')[0]),
+				contentType: false,
+				processData: false,
+				success: function(data, status, xhr){
+					if(xhr.status == 201){
+						window.location = "/contacts/" + data.contact_id;
+					}
+				}
+			});
+		});
+	</script>
+</body>
+</html>
