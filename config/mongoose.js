@@ -1,4 +1,3 @@
-const config = require('./env/'+ process.env.NODE_ENV +'.js');
 const bluebird = require('bluebird');
 const mongoose = require('mongoose');
 mongoose.Promise = bluebird;
@@ -7,7 +6,7 @@ const activeModules = require('./modules.js').activeModules;
 let moduleModels;
 
 module.exports = function(){
-	const db = mongoose.connect(config.db, { 
+	const db = mongoose.connect(process.env.MONGO_URL, { 
 		useNewUrlParser: true,
 		useUnifiedTopology: true 
 	});

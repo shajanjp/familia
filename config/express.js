@@ -1,4 +1,3 @@
-const config = require('./env/'+ process.env.NODE_ENV +'.js');
 const express = require('express');
 const morgan = require('morgan');
 const compress = require('compression');
@@ -7,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const activeModules = require('./modules.js').activeModules;
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken');
+const AUTH_SECRET = process.env.AUTH_SECRET;
 
 module.exports = function(){
 	const app = express();
@@ -29,7 +29,7 @@ module.exports = function(){
 	app.use(function (req, res, next) {
 		let token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || (req.cookies && req.cookies.access_token) || req.headers['x-access-token'];
 		if (token) {
-			jwt.verify(token, config.auth_secret, function(err, decoded) {
+			jwt.verify(token, AUTH_SECRET, function(err, decoded) {
 				if (err) { 
 					app.locals.auth_user = null;
 					next();

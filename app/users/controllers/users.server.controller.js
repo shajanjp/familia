@@ -1,9 +1,9 @@
 const User = require('mongoose').model('user');
 const Contact = require('mongoose').model('contact');
 const userValidation = require('../lib/users.validation.js');
-const config = require('../../../config/env/' + process.env.NODE_ENV + '.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const AUTH_SECRET = process.env.AUTH_SECRET;
 
 exports.home = function(req, res){
 	res.render('users/views/home');
@@ -51,7 +51,7 @@ var signupUser = function(user, next, res) {
 					'role': user.role,
 					'contact': user.contact
 				},
-				config.auth_secret,
+				AUTH_SECRET,
 				{
 					algorithm: "HS256",
 					expiresIn: 604800
@@ -116,7 +116,7 @@ exports.authenticate = function(req, res, next){
 					'role': user.role,
 					'contact': user.contact
 				}, 
-				config.auth_secret, {
+				AUTH_SECRET, {
 					algorithm: "HS256",
 					expiresIn: 604800
 				});
