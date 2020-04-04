@@ -48,6 +48,9 @@ exports.createContactAPI = function(req, res){
 		delete req.body.relation_to_contact;
 		delete req.body.related_to_contact;
 	}
+
+	req.body.is_dead = (req.body.is_dead == 'true') ? true : false;
+
 	if(req.body.anniversaries){
 		if (req.body.anniversaries[0].day == "" || req.body.anniversaries[0].day == null) {
 			delete req.body.anniversaries;
