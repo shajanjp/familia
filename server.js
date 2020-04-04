@@ -6,5 +6,5 @@ const db = mongoose();
 const	app = express();
 
 app.listen(3000, function() {
-	console.log('Server started at http://localhost:3000 in ' + process.env.NODE_ENV + ' mode.');
+	console.log('Server started at http://localhost:3000');
 });
