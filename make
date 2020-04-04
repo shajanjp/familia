@@ -145,7 +145,7 @@ case "$1" in
 	</head>
 	<body>
 	<h1><%= "$moduleNamePlural".title %></h1>
-	<% include ../../home/views/partials/footer.ejs %>
+	<% include('../../home/views/partials/footer.ejs') %>
 	<%- include('../../home/views/partials/scripts.ejs') %>	
 	</body>
 	</html>" > app/$moduleNamePlural/views/add.ejs;
