@@ -149,7 +149,7 @@ exports.fetchContactAPI = function(req, res){
 				temp_con.full_name = con.full_name;
 				if(con.related_to_contact)
 					temp_con.description = con.related_to_contact.full_name + "'s " + con.relation_to_contact;
-				temp_con.avatar = '/contacts/public/uploads/avatars/' + (con.avatar || 'default.jpg');
+				temp_con.avatar = con.avatar ? `/contacts/public/uploads/avatars/${con.avatar}` : '/home/public/img/avatar.jpg';
 				temp_con.url = '/contacts/' + con._id;
 				temp_con._id = con._id;
 				arranged_contact_list.push(temp_con);

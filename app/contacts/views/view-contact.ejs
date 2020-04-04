@@ -15,7 +15,7 @@
 	<div class="ui text container contact">
 		<div class="ui stackable grid">
 			<div class="eight wide column">
-				<img src="/contacts/public/uploads/avatars/<% if(contact.avatar){ %><%= contact.avatar %><% }else{ %>default.jpg<% } %>" class="ui rounded fluid image" alt="">		
+				<img src="<% if(contact.avatar){ %>/contacts/public/uploads/avatars/<%= contact.avatar %><% }else{ %>/home/public/img/avatar.jpg<% } %>" class="ui rounded fluid image" alt="">		
 			</div>
 			<div class="eight wide column">
 				<h1 class="ui white header marginless"><%= contact.full_name %></h1>
@@ -78,7 +78,7 @@
 							<% related_contacts.forEach(function(related_contact){ %>
 							<div class="ui card">
 								<div class="image">
-									<img src="/contacts/public/uploads/avatars/<% if(related_contact.avatar){ %><%= related_contact.avatar %><% }else{ %>default.jpg<% } %>">
+									<img src="<% if(related_contact.avatar){ %>/contacts/public/uploads/avatars/<%= related_contact.avatar %><% }else{ %>/home/public/img/avatar.jpg<% } %>">
 								</div>
 								<div class="content">
 									<a class="header" href="/contacts/<%= related_contact._id %>"><%= related_contact.full_name %></a>
@@ -91,7 +91,7 @@
 							<% if(contact.related_to_contact){ %>
 							<div class="ui card">
 								<div class="image">
-									<img src="/contacts/public/uploads/avatars/<% if(contact.related_to_contact.avatar){ %><%= contact.related_to_contact.avatar %><% }else{ %>default.jpg<% } %>">
+									<img src="<% if(contact.related_to_contact.avatar){ %>/contacts/public/uploads/avatars/<%= contact.related_to_contact.avatar %><% }else{ %>/home/public/img/avatar.jpg<% } %>">
 								</div>	
 								<div class="content">
 									<a class="header" href="/contacts/<%= contact.related_to_contact._id %>"><%= contact.related_to_contact.full_name %></a>

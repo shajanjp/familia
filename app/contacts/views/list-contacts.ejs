@@ -31,7 +31,7 @@
 				<tr data-contact-id="<%= contact._id %>">
 					<td>
 						<h4 class="ui image header">
-							<img src="/contacts/public/uploads/avatars/<% if(contact.avatar){ %><%= contact.avatar %><% }else{ %>default.jpg<% } %>" class="ui mini rounded image">
+							<img src="<% if(contact.avatar){ %>/contacts/public/uploads/avatars/<%= contact.avatar %><% }else{ %>/home/public/img/avatar.jpg<% } %>" class="ui mini rounded image">
 							<div class="content">
 								<a href="/contacts/<%= contact._id %>"><%= contact.full_name %></a>
 							</div>

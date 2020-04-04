@@ -26,7 +26,7 @@
 					<% house.contacts.forEach(function(member){ %>
 					<div class="card">
 						<a href="/contacts/<%= member._id %>" class="image" data-tooltip="<%= member.full_name %>" data-inverted="">
-							<img src="/contacts/public/uploads/avatars/<% if(member.avatar){ %><%= member.avatar %><% }else{ %>default.jpg<% } %>">
+							<img src="<% if(member.avatar){ %>/contacts/public/uploads/avatars/<%= member.avatar %><% }else{ %>/home/public/img/avatar.jpg<% } %>">
 						</a>
 					</div>
 					<% });}  %>

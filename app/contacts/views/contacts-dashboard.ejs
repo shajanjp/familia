@@ -27,7 +27,7 @@
 					<% contacts_list.forEach(function(contact){ %>
 					<div class="ui card">
 						<div class="image">
-							<img src="/contacts/public/uploads/avatars/<% if(contact.avatar){ %><%= contact.avatar %><% }else{ %>default.jpg<% } %>">
+							<img src="<% if(contact.avatar){ %>/contacts/public/uploads/avatars/<%= contact.avatar %><% }else{ %>/home/public/img/avatar.jpg<% } %>">
 						</div>
 						<div class="content">
 							<a class="header" href="/contacts/<%= contact._id %>"><%= contact.full_name %></a>
